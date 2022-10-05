@@ -1,6 +1,7 @@
 # タスク管理アプリ
 ## ER図
-![ER図](images/er-figure-screenshot.png)
+※ ●はNotNullを表す。
+![ER図](images/er-figure-screenshot-v2.png)
 
 ### users
 
@@ -18,7 +19,7 @@
 | - | - | - | - |
 | id | integer | ID |  |
 | title | string | タイトル |  |
-| detail | string | 詳細 |  |
+| detail | text | 詳細 |  |
 | deadline | date | 期限 |  |
 | user_id | integer | ロールID |  |
 | status_id | integer | ステータスID|  |
