@@ -1,0 +1,11 @@
+{
+  "name": "app",
+  "private": "true",
+  "dependencies": {
+    "esbuild": "^0.15.10"
+  },
+  "scripts": {
+    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets",
+    "tsc": "tsc --project tsconfig.json"
+  }
+}
