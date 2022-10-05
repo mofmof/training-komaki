@@ -1,0 +1,38 @@
+@startuml
+hide circle
+
+entity users {
+  * id [PK] : Integer ID
+  --
+  * name : String ユーザー名
+  * email : String メールアドレス
+  * password : string パスワード
+  * role_id [FK] : Integer ロールID
+}
+
+entity tasks {
+  * id [PK] : Integer ID
+  --
+  title : String タイトル
+  detail : String  詳細
+  deadline : date 期限
+  user_id [FK] : Integer ユーザーID
+  status_id [FK] : Integer ステータスID
+}
+
+entity statuses {
+  * id [PK] : Integer : id
+  --
+  name : String : ステータス名
+}
+
+entity roles {
+  * id [PK] : Integer ID
+  --
+  name : String ロール名
+}
+
+users ||--|{ tasks
+users ||--|| roles
+tasks ||--|| statuses
+@enduml
