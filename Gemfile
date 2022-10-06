@@ -63,7 +63,7 @@ group :development, :test do
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
   gem 'rspec-rails'
-  # RSpec‚ÌƒeƒXƒg‚ğ‚‘¬‚ÉÀs
+  # RSpecã‚’é«˜é€ŸåŒ–ã™ã‚‹ãŸã‚
   gem 'spring-commands-rspec'
 end
 
