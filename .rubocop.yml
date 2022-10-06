@@ -1,9 +1,27 @@
 inherit_from: .rubocop_todo.yml
 
 require:
-  - rubocop-performance
   - rubocop-rails
+  - rubocop-performance
   - rubocop-rspec
 
 Allcops:
   NexCops: enable
+  Exclude:
+    - "node_modules/**/*"
+    - "log/**/*"
+    - "tmp/**/*"
+    - "vendor/**/*"
+    - "db/**/*"
+    - "config/**/*"
+    - "bin/*"
+    - "Gemfile"
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/AsciiComments:
+  Enabled: false
