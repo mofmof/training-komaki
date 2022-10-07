@@ -6,18 +6,28 @@ module.exports = {
   extends: [
     'plugin:react/recommended',
     'standard-with-typescript',
-    'prettier'
+    'prettier',
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
   ],
   overrides: [
   ],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
-    project: 'tsconfig.json'
+    tsconfigRootDir: '.',
+    project: ['./tsconfig.json']
   },
   plugins: [
-    'react'
+    'react',
+    '@typescript-eslint'
   ],
   rules: {
+  },
+  settings: {
+    'react': {
+      'version': 'detect'
+    }
   }
 }
