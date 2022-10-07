@@ -12,13 +12,17 @@ module.exports = {
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
   ],
   overrides: [
+    {
+      files: ['*.ts', '*.tsx'],
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        tsconfigRootDir: '.',
+        project: ['./tsconfig.json']
+      },
+    }
   ],
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    tsconfigRootDir: '.',
-    project: ['./tsconfig.json']
-  },
+  parser: "@typescript-eslint/parser",
   plugins: [
     'react',
     '@typescript-eslint'
