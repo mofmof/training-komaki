@@ -49,8 +49,11 @@ gem "bootsnap", require: false
 # gem "image_processing", "~> 1.2"
 
 # esbuild setup
-gem 'cssbundling-rails'
-gem 'jsbundling-rails'
+# gem 'cssbundling-rails'
+# gem 'jsbundling-rails'
+
+# Vite
+gem 'vite_rails'
 
 # graphql
 gem 'graphql'

@@ -1,7 +1,8 @@
 FROM ruby
 RUN apt-get update -qq && \
     apt-get install -y build-essential libpq-dev nodejs npm && \
-    npm install yarn -g -y
+    npm install n yarn -g -y &&\
+    n 16.17.1
 RUN mkdir /myapp
 WORKDIR /myapp
 ADD Gemfile /myapp/Gemfile
