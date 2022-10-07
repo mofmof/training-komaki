@@ -1,0 +1,35 @@
+{
+  "name": "app",
+  "private": true,
+  "dependencies": {
+    "@apollo/client": "^3.7.0",
+    "esbuild": "^0.15.10",
+    "graphql": "^16.6.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwindcss": "^3.1.8"
+  },
+  "scripts": {
+    "build:js": "esbuild app/javascript/application.tsx --bundle --sourcemap --outdir=app/assets/builds",
+    "build:css": "sass ./app/assets/stylesheets/application.sass.scss ./app/assets/builds/application.css --no-source-map --load-path=node_modules",
+    "failure:js": "rm ./app/assets/builds/application.js && rm ./app/assets/builds/application.js.map",
+    "dev:js": "tsc-watch --noClear -p tsconfig.json --onSuccess \"yarn build:js\" --onFailure \"yarn failure:js\"",
+    "lint": "eslint 'app/javascript/'",
+    "format": "prettier --write app/javascript",
+    "lint-fix": "eslint --cache --fix app/javascript/ && prettier --write app/javascript/"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "eslint": "^8.0.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-standard-with-typescript": "^23.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-react": "^7.31.8",
+    "tsc-watch": "^5.0.3",
+    "typescript": "*"
+  }
+}

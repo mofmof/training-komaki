@@ -1,42 +1,45 @@
-# ƒ^ƒXƒNŠÇ—ƒAƒvƒŠ
-## ER}
-¦ œ‚ÍNotNull‚ğ•\‚·B
-![ER}](images/er-figure-screenshot-v2.png)
+# ã‚¿ã‚¹ã‚¯ç®¡ç†ã‚¢ãƒ—ãƒª
+
+## ER å›³
+
+â€» â— ã¯ NotNull ã‚’è¡¨ã™ã€‚
+![ERå›³](images/er-figure-screenshot-v2.png)
 
 ### users
 
-| ƒJƒ‰ƒ€–¼ | ƒf[ƒ^Œ^ | ˜_—–¼ | ”õl |
-| - | - | - | - |
-| id | integer | ID |  |
-| name | string | ƒ†[ƒU[–¼ |  |
-| email | string | ƒ[ƒ‹ƒAƒhƒŒƒX |  |
-| psasword | string | ƒpƒXƒ[ƒh |  |
-| role_id | integer | ƒ[ƒ‹ID |  |
+| ã‚«ãƒ©ãƒ å | ãƒ‡ãƒ¼ã‚¿å‹ | è«–ç†å         | å‚™è€ƒ |
+| -------- | -------- | -------------- | ---- |
+| id       | integer  | ID             |      |
+| name     | string   | ãƒ¦ãƒ¼ã‚¶ãƒ¼å     |      |
+| email    | string   | ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ |      |
+| psasword | string   | ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰     |      |
+| role_id  | integer  | ãƒ­ãƒ¼ãƒ« ID      |      |
 
 ### tasks
 
-| ƒJƒ‰ƒ€–¼ | ƒf[ƒ^Œ^ | ˜_—–¼ | ”õl |
-| - | - | - | - |
-| id | integer | ID |  |
-| title | string | ƒ^ƒCƒgƒ‹ |  |
-| detail | text | Ú× |  |
-| deadline | date | ŠúŒÀ |  |
-| user_id | integer | ƒ[ƒ‹ID |  |
-| status_id | integer | ƒXƒe[ƒ^ƒXID|  |
+| ã‚«ãƒ©ãƒ å  | ãƒ‡ãƒ¼ã‚¿å‹ | è«–ç†å        | å‚™è€ƒ |
+| --------- | -------- | ------------- | ---- |
+| id        | integer  | ID            |      |
+| title     | string   | ã‚¿ã‚¤ãƒˆãƒ«      |      |
+| detail    | text     | è©³ç´°          |      |
+| deadline  | date     | æœŸé™          |      |
+| user_id   | integer  | ãƒ­ãƒ¼ãƒ« ID     |      |
+| status_id | integer  | ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ ID |      |
 
 ### roles
 
-| ƒJƒ‰ƒ€–¼ | ƒf[ƒ^Œ^ | ˜_—–¼ | ”õl |
-| - | - | - | - |
-| id | integer | ID |  |
-| name | string | ƒ[ƒ‹–¼ |  |
+| ã‚«ãƒ©ãƒ å | ãƒ‡ãƒ¼ã‚¿å‹ | è«–ç†å   | å‚™è€ƒ |
+| -------- | -------- | -------- | ---- |
+| id       | integer  | ID       |      |
+| name     | string   | ãƒ­ãƒ¼ãƒ«å |      |
 
 ### statuses
 
-| ƒJƒ‰ƒ€–¼ | ƒf[ƒ^Œ^ | ˜_—–¼ | ”õl |
-| - | - | - | - |
-| id | integer | ID |  |
-| name | string | ƒXƒe[ƒ^ƒX–¼ | |]
+| ã‚«ãƒ©ãƒ å | ãƒ‡ãƒ¼ã‚¿å‹ | è«–ç†å       | å‚™è€ƒ |
+| -------- | -------- | ------------ | ---- | --- |
+| id       | integer  | ID           |      |
+| name     | string   | ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹å |      | ]   |
 
-## ‰æ–ÊƒCƒ[ƒW
-![‰æ–ÊƒCƒ[ƒW](images/figjam-screenshot.png)
+## ç”»é¢ã‚¤ãƒ¡ãƒ¼ã‚¸
+
+![ç”»é¢ã‚¤ãƒ¡ãƒ¼ã‚¸](images/figjam-screenshot.png)
