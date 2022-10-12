@@ -12,8 +12,7 @@
     "tailwindcss": "^3.1.8"
   },
   "scripts": {
-    "build:css": "sass ./app/assets/stylesheets/application.sass.scss ./app/assets/builds/application.css --no-source-map --load-path=node_modules",
-    "build:js": "tsc && vite build",
+    "build": "tsc && vite build",
     "lint": "eslint 'app/javascript/'",
     "format": "prettier --write app/javascript",
     "lint-fix": "eslint --cache --fix app/javascript/ && prettier --write app/javascript/",
