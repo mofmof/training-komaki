@@ -13,7 +13,7 @@ type Mutation {
     id: ID!
     title: String!
     detail: String!
-    deadline: ISO8601Date!
+    limit_on: ISO8601Date!
   ): Task!
 }
 
@@ -23,9 +23,9 @@ type Query {
 
 type Task {
   createdAt: ISO8601DateTime!
-  deadline: ISO8601Date!
   detail: String
   id: ID!
+  limitOn: ISO8601Date!
   title: String!
   updatedAt: ISO8601DateTime!
 }

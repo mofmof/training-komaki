@@ -6,7 +6,7 @@ export const FETCH_TASKS = gql`
       id
       title
       detail
-      deadline
+      limitOn
     }
   }
 `;

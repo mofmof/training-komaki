@@ -26,9 +26,9 @@ export type Mutation = {
 
 
 export type MutationCreateTaskArgs = {
-  deadline: Scalars['ISO8601Date'];
   detail: Scalars['String'];
   id: Scalars['ID'];
+  limit_on: Scalars['ISO8601Date'];
   title: Scalars['String'];
 };
 
@@ -40,9 +40,9 @@ export type Query = {
 export type Task = {
   __typename?: 'Task';
   createdAt: Scalars['ISO8601DateTime'];
-  deadline: Scalars['ISO8601Date'];
   detail?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
+  limitOn: Scalars['ISO8601Date'];
   title: Scalars['String'];
   updatedAt: Scalars['ISO8601DateTime'];
 };
@@ -50,7 +50,7 @@ export type Task = {
 export type FetchTasksQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchTasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, title: string, detail?: string | null, deadline: any }> };
+export type FetchTasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, title: string, detail?: string | null, limitOn: any }> };
 
 
 export const FetchTasksDocument = gql`
@@ -59,7 +59,7 @@ export const FetchTasksDocument = gql`
     id
     title
     detail
-    deadline
+    limitOn
   }
 }
     `;
