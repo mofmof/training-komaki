@@ -15,7 +15,7 @@ entity tasks {
   --
   * title : string タイトル
   detail : text  詳細
-  * deadline : date 期限
+  * limit_on : date 期限
   * user_id [FK] : integer ユーザーID
   * status_id [FK] : integer ステータスID
 }

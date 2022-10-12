@@ -17,11 +17,24 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+      VITE_RUBY_HOST: vite
     volumes:
       - .:/myapp
     ports:
       - "3000:3000"
     depends_on:
       - db
+      - vite
+
+  vite:
+    build: .
+    command: bash -c "bin/vite dev"
+    environment:
+      VITE_RUBY_HOST: 0.0.0.0
+    ports:
+      - "3036:3036"
+    volumes:
+      - .:/myapp
+
 volumes:
   postgres_volume:

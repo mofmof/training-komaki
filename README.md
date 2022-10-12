@@ -3,7 +3,7 @@
 ## ER 図
 
 ※ ● は NotNull を表す。
-![ER図](images/er-figure-screenshot-v2.png)
+![ER図](images/er-figure-screenshot-v3.png)
 
 ### users
 
@@ -22,7 +22,7 @@
 | id        | integer  | ID            |      |
 | title     | string   | タイトル      |      |
 | detail    | text     | 詳細          |      |
-| deadline  | date     | 期限          |      |
+| limit_on  | date     | 期限          |      |
 | user_id   | integer  | ロール ID     |      |
 | status_id | integer  | ステータス ID |      |
 
@@ -35,10 +35,10 @@
 
 ### statuses
 
-| カラム名 | データ型 | 論理名       | 備考 |
-| -------- | -------- | ------------ | ---- | --- |
-| id       | integer  | ID           |      |
-| name     | string   | ステータス名 |      | ]   |
+| カラム名 | データ型 | 論理名   | 備考 |
+| -------- | -------- | -------- | ---- |
+| id       | integer  | ID       |      |
+| name     | string   | ステータス名 |      |
 
 ## 画面イメージ
 
