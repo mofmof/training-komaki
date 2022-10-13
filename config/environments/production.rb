@@ -90,4 +90,9 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Blocked hostエラー回避
+  Rails.application.configure do
+    config.hosts << "training-app.onrender.com"
+  end
 end
