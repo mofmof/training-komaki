@@ -1,0 +1,31 @@
+"""
+An ISO 8601-encoded date
+"""
+scalar ISO8601Date
+
+"""
+An ISO 8601-encoded datetime
+"""
+scalar ISO8601DateTime
+
+type Mutation {
+  createTask(
+    id: ID!
+    title: String!
+    detail: String!
+    limit_on: ISO8601Date!
+  ): Task!
+}
+
+type Query {
+  tasks: [Task!]!
+}
+
+type Task {
+  createdAt: ISO8601DateTime!
+  detail: String
+  id: ID!
+  limitOn: ISO8601Date!
+  title: String!
+  updatedAt: ISO8601DateTime!
+}
