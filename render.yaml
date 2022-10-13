@@ -2,10 +2,14 @@ databases:
   - name: myapp
     databaseName: myapp_production
     user: myapp
+    plan: free
+    region: singapore
 
 services:
   - type: web
     name: myapp
+    plan: free
+    region: singapore
     env: ruby
     buildCommand: "./bin/render-build.sh"
     startCommand: "bundle exec puma -C config/puma.rb"
