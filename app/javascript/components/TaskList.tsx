@@ -1,7 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useFetchTasksQuery } from "../generated/graphql";
 
-const Tasks: React.FC = () => {
+const TaskList: React.FC = () => {
   const { loading, data } = useFetchTasksQuery();
 
   return (
@@ -12,7 +13,9 @@ const Tasks: React.FC = () => {
       ) : (
         <ul>
           {data?.tasks.map((task) => (
-            <li key={task.id}>{task.title}</li>
+            <li key={task.id}>
+              <Link to={`/tasks/${task.id}`}>{task.title}</Link>
+            </li>
           ))}
         </ul>
       )}
@@ -20,4 +23,4 @@ const Tasks: React.FC = () => {
   );
 };
 
-export default Tasks;
+export default TaskList;
