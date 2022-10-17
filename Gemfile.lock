@@ -91,7 +91,6 @@ GEM
     diff-lcs (1.5.0)
     dry-cli (0.7.0)
     erubi (1.11.0)
-    foreman (0.87.2)
     globalid (1.0.0)
       activesupport (>= 5.0)
     graphiql-rails (1.8.0)
@@ -131,6 +130,8 @@ GEM
       net-protocol
     nio4r (2.5.8)
     nokogiri (1.13.8-aarch64-linux)
+      racc (~> 1.4)
+    nokogiri (1.13.8-x86_64-linux)
       racc (~> 1.4)
     parallel (1.22.1)
     parser (3.1.2.1)
@@ -269,12 +270,12 @@ GEM
 
 PLATFORMS
   aarch64-linux
+  x86_64-linux
 
 DEPENDENCIES
   bootsnap
   capybara
   debug
-  foreman
   graphiql-rails
   graphql
   importmap-rails
