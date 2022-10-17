@@ -3,7 +3,7 @@ module Queries
     type [ObjectTypes::TaskType], null: false
 
     def resolve
-      Task.all
+      ::Task.all
     end
   end
 end
