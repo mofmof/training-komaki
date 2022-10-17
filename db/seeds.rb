@@ -6,5 +6,5 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 10.times do |n|
-  Task.create(title: "タスク#{n}", detail: "詳細#{n}", limit_on: Date.today + 3)
+  Task.create(title: "タスク#{n + 1}", detail: "詳細#{n + 1}", limit_on: Time.zone.today + 3)
 end
