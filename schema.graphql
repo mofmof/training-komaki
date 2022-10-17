@@ -18,6 +18,7 @@ type Mutation {
 }
 
 type Query {
+  task(id: ID!): Task!
   tasks: [Task!]!
 }
 
