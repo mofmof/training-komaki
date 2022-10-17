@@ -1,13 +1,25 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
-import Tasks from "./components/Tasks";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
+import ErrorPage from "./components/ErrorPage";
+import Task from "./components/Task";
+import TaskList from "./components/TaskList";
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route>
+      <Route path="/" element={<TaskList />} errorElement={<ErrorPage />} />
+      <Route path="tasks/:id" element={<Task />} />
+    </Route>
+  )
+);
 
 const App: React.FC = () => {
-  return (
-    <Routes>
-      <Route path="/" element={<Tasks />} />
-    </Routes>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;
