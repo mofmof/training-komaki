@@ -7,6 +7,7 @@ import {
   HttpLink,
 } from "@apollo/client";
 import App from "../App";
+import "virtual:windi.css";
 
 const container = document.getElementById("root") as HTMLElement;
 const root = createRoot(container);
