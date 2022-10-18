@@ -6,9 +6,7 @@ input CreateTaskInput {
   A unique identifier for the client performing the mutation.
   """
   clientMutationId: String
-  detail: String
-  limitOn: ISO8601Date!
-  title: String!
+  params: TaskInput!
 }
 
 """
@@ -52,4 +50,10 @@ type Task {
   limitOn: ISO8601Date!
   title: String!
   updatedAt: ISO8601DateTime!
+}
+
+input TaskInput {
+  detail: String
+  limitOn: ISO8601Date!
+  title: String!
 }
