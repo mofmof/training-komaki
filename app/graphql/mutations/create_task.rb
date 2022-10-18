@@ -1,14 +1,14 @@
 module Mutations
-  class CreateTask < BaseMutation
+  class CreateTask < Mutations::BaseMutation
     field :task, ObjectTypes::TaskType, null: false
 
-    argument :title, String, required: true
-    argument :detail, String, required: false
-    argument :limit_on, GraphQL::Types::ISO8601Date, required: true
+    argument :params, InputTypes::Task, required: true
 
-    def resolve(**params)
+    def resolve(params:)
       task = ::Task.create!(params)
       { task: task }
+    rescue => e
+      GraphQL::ExecutionError.new(e.message)
     end
   end
 end
