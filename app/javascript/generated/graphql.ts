@@ -71,7 +71,7 @@ export type Task = {
 
 export type TaskInput = {
   detail?: InputMaybe<Scalars["String"]>;
-  limitOn: Scalars["ISO8601Date"];
+  limitOn: Scalars["String"];
   title: Scalars["String"];
 };
 
