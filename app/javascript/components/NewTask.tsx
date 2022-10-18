@@ -4,10 +4,9 @@ import { useCreateTaskMutation } from "../generated/graphql";
 
 const AddTask: React.FC = () => {
   const navigate = useNavigate();
-  const [createTask, { loading }] = useCreateTaskMutation({
-    refetchQueries: ["tasks"],
-    onCompleted: () => {
-      navigate("/");
+  const [createTask] = useCreateTaskMutation({
+    onCompleted: (data) => {
+      navigate(`/tasks/${data?.createTask?.task?.id}`);
     },
   });
   const [title, setTitle] = useState("");
