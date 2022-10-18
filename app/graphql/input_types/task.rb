@@ -4,6 +4,6 @@ module InputTypes
 
     argument :title, String, required: true
     argument :detail, String, required: false
-    argument :limit_on, GraphQL::Types::ISO8601Date, required: true
+    argument :limit_on, String, required: true
   end
 end
