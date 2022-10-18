@@ -5,9 +5,9 @@ module Mutations
     argument :params, InputTypes::Task, required: true
 
     def resolve(params:)
-      task = ::Task.create!(params)
-      { task: task }
-    rescue => e
+      task = ::Task.create!(params.to_h)
+      { task: }
+    rescue StandardError => e
       GraphQL::ExecutionError.new(e.message)
     end
   end
