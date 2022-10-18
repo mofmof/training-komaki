@@ -4,6 +4,7 @@ import NewTask from "./components/NewTask";
 import ErrorPage from "./components/ErrorPage";
 import Task from "./components/Task";
 import TaskList from "./components/TaskList";
+import EditTask from "./components/EditTask";
 
 const App: React.FC = () => {
   return (
@@ -12,6 +13,7 @@ const App: React.FC = () => {
         <Route path="/" element={<TaskList />} />
         <Route path="/tasks/:id" element={<Task />} />
         <Route path="/tasks/new" element={<NewTask />} />
+        <Route path="/tasks/edit" element={<EditTask />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
