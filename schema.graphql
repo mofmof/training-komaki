@@ -55,6 +55,6 @@ type Task {
 
 input TaskInput {
   detail: String
-  limitOn: ISO8601Date!
+  limitOn: String!
   title: String!
 }
