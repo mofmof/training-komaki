@@ -216,6 +216,7 @@ export type CreateTaskMutationOptions = Apollo.BaseMutationOptions<
   CreateTaskMutation,
   CreateTaskMutationVariables
 >;
+
 export const UpdateTaskDocument = gql`
   mutation UpdateTask($id: ID!, $params: TaskInput!) {
     updateTask(input: { id: $id, params: $params }) {
