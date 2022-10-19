@@ -13,7 +13,7 @@ const App: React.FC = () => {
         <Route path="/" element={<TaskList />} />
         <Route path="/tasks/:id" element={<Task />} />
         <Route path="/tasks/new" element={<NewTask />} />
-        <Route path="/tasks/edit" element={<EditTask />} />
+        <Route path="/tasks/:id/edit" element={<EditTask />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
