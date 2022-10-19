@@ -37,6 +37,7 @@ type Mutation {
     """
     input: CreateTaskInput!
   ): CreateTaskPayload
+
   updateTask(
     """
     Parameters for UpdateTask

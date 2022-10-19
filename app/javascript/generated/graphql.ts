@@ -229,6 +229,7 @@ export const UpdateTaskDocument = gql`
     }
   }
 `;
+
 export type UpdateTaskMutationFn = Apollo.MutationFunction<
   UpdateTaskMutation,
   UpdateTaskMutationVariables
@@ -252,6 +253,7 @@ export type UpdateTaskMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
+
 export function useUpdateTaskMutation(
   baseOptions?: Apollo.MutationHookOptions<
     UpdateTaskMutation,
