@@ -18,6 +18,7 @@ const Task: React.FC = () => {
       <div>詳細： {data?.task.detail}</div>
       <div>期限： {data?.task.limitOn}</div>
     </div>
+
   );
 };
 
