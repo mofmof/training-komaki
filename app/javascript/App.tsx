@@ -1,22 +1,18 @@
 import React from "react";
-import { useFetchTasksQuery } from "./generated/graphql";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import ErrorPage from "./components/ErrorPage";
+import Task from "./components/Task";
+import TaskList from "./components/TaskList";
 
 const App: React.FC = () => {
-  const { loading, data } = useFetchTasksQuery();
-
   return (
-    <>
-      <h1>タスク一覧</h1>
-      {loading ? (
-        <p>Loading ...</p>
-      ) : (
-        <ul>
-          {data?.tasks.map((task) => (
-            <li key={task.id}>{task.title}</li>
-          ))}
-        </ul>
-      )}
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<TaskList />} />
+        <Route path="tasks/:id" element={<Task />} />
+        <Route path="*" element={<ErrorPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 

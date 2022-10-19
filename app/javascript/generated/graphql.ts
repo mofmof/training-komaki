@@ -34,7 +34,13 @@ export type MutationCreateTaskArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  task: Task;
   tasks: Array<Task>;
+};
+
+
+export type QueryTaskArgs = {
+  id: Scalars['ID'];
 };
 
 export type Task = {
@@ -47,12 +53,57 @@ export type Task = {
   updatedAt: Scalars['ISO8601DateTime'];
 };
 
+export type FetchTaskByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type FetchTaskByIdQuery = { __typename?: 'Query', task: { __typename?: 'Task', id: string, title: string, detail?: string | null, limitOn: any } };
+
 export type FetchTasksQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FetchTasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, title: string, detail?: string | null, limitOn: any }> };
 
 
+export const FetchTaskByIdDocument = gql`
+    query FetchTaskById($id: ID!) {
+  task(id: $id) {
+    id
+    title
+    detail
+    limitOn
+  }
+}
+    `;
+
+/**
+ * __useFetchTaskByIdQuery__
+ *
+ * To run a query within a React component, call `useFetchTaskByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchTaskByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchTaskByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useFetchTaskByIdQuery(baseOptions: Apollo.QueryHookOptions<FetchTaskByIdQuery, FetchTaskByIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FetchTaskByIdQuery, FetchTaskByIdQueryVariables>(FetchTaskByIdDocument, options);
+      }
+export function useFetchTaskByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchTaskByIdQuery, FetchTaskByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FetchTaskByIdQuery, FetchTaskByIdQueryVariables>(FetchTaskByIdDocument, options);
+        }
+export type FetchTaskByIdQueryHookResult = ReturnType<typeof useFetchTaskByIdQuery>;
+export type FetchTaskByIdLazyQueryHookResult = ReturnType<typeof useFetchTaskByIdLazyQuery>;
+export type FetchTaskByIdQueryResult = Apollo.QueryResult<FetchTaskByIdQuery, FetchTaskByIdQueryVariables>;
 export const FetchTasksDocument = gql`
     query FetchTasks {
   tasks {
