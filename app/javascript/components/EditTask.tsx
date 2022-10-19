@@ -1,9 +1,29 @@
 import React, { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  useFetchTaskByIdQuery,
+  useUpdateTaskMutation,
+} from "../generated/graphql";
 
 const EditTask: React.FC = () => {
-  const [title, setTitle] = useState("");
-  const [detail, setDetail] = useState("");
-  const [limitOn, setLimitOn] = useState("");
+  const params = useParams();
+  const navigate = useNavigate();
+
+  const { data } = useFetchTaskByIdQuery({
+    variables: {
+      id: params.id,
+    },
+  });
+
+  const [title, setTitle] = useState(data?.task.title);
+  const [detail, setDetail] = useState(data?.task.detail);
+  const [limitOn, setLimitOn] = useState(data?.task.limitOn);
+
+  const [updateTask] = useUpdateTaskMutation({
+    onCompleted: (data) => {
+      navigate(`/tasks/${data?.updateTask?.task?.id}`);
+    },
+  });
 
   return (
     <div className="container mx-auto">
@@ -22,6 +42,7 @@ const EditTask: React.FC = () => {
             name="title"
             type="text"
             placeholder="タイトル"
+            value={title}
             onChange={(e) => {
               setTitle(e.target.value);
             }}
@@ -34,6 +55,7 @@ const EditTask: React.FC = () => {
           <textarea
             className="mt-1 block w-full border shadow rounded"
             rows={6}
+            value={detail}
             onChange={(e) => {
               setDetail(e.target.value);
             }}
@@ -50,6 +72,7 @@ const EditTask: React.FC = () => {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:bg-white focus:border-gray-500"
             name="limitOn"
             type="date"
+            value={limitOn}
             required
             onChange={(e) => {
               setLimitOn(e.target.value);
@@ -57,7 +80,20 @@ const EditTask: React.FC = () => {
           />
         </div>
         <div>
-          <button className="no-underline bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+          <button
+            className="no-underline bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => {
+              void updateTask({
+                variables: {
+                  id: params.id,
+                  params: { title, detail, limitOn },
+                },
+              });
+              setTitle("");
+              setDetail("");
+              setLimitOn("");
+            }}
+          >
             更新
           </button>
         </div>
