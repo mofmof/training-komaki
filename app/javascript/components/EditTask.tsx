@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   useFetchTaskByIdQuery,
   useUpdateTaskMutation,
@@ -80,6 +80,12 @@ const EditTask: React.FC = () => {
           />
         </div>
         <div>
+          <Link
+            className="no-underline mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            to={`/tasks/${params.id}`}
+          >
+            戻る
+          </Link>
           <button
             className="no-underline bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
             onClick={() => {

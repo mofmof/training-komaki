@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCreateTaskMutation } from "../generated/graphql";
 
 const AddTask: React.FC = () => {
@@ -81,6 +81,11 @@ const AddTask: React.FC = () => {
             追加
           </button>
         </div>
+      </div>
+      <div className="text-center">
+        <Link className="no-underline" to="/">
+          - TOP -
+        </Link>
       </div>
     </div>
   );
