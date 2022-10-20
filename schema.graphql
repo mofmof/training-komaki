@@ -37,7 +37,6 @@ type Mutation {
     """
     input: CreateTaskInput!
   ): CreateTaskPayload
-
   updateTask(
     """
     Parameters for UpdateTask
@@ -47,8 +46,16 @@ type Mutation {
 }
 
 type Query {
+  statuses: [Status!]!
   task(id: ID!): Task!
   tasks: [Task!]!
+}
+
+type Status {
+  createdAt: ISO8601DateTime!
+  id: ID!
+  name: String!
+  updatedAt: ISO8601DateTime!
 }
 
 type Task {

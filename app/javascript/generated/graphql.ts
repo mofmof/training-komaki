@@ -56,12 +56,21 @@ export type MutationUpdateTaskArgs = {
 
 export type Query = {
   __typename?: "Query";
+  statuses: Array<Status>;
   task: Task;
   tasks: Array<Task>;
 };
 
 export type QueryTaskArgs = {
   id: Scalars["ID"];
+};
+
+export type Status = {
+  __typename?: "Status";
+  createdAt: Scalars["ISO8601DateTime"];
+  id: Scalars["ID"];
+  name: Scalars["String"];
+  updatedAt: Scalars["ISO8601DateTime"];
 };
 
 export type Task = {
@@ -131,6 +140,13 @@ export type UpdateTaskMutation = {
       limitOn: any;
     };
   } | null;
+};
+
+export type FetchStatusesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type FetchStatusesQuery = {
+  __typename?: "Query";
+  statuses: Array<{ __typename?: "Status"; id: string; name: string }>;
 };
 
 export type FetchTaskByIdQueryVariables = Exact<{
@@ -216,7 +232,6 @@ export type CreateTaskMutationOptions = Apollo.BaseMutationOptions<
   CreateTaskMutation,
   CreateTaskMutationVariables
 >;
-
 export const UpdateTaskDocument = gql`
   mutation UpdateTask($id: ID!, $params: TaskInput!) {
     updateTask(input: { id: $id, params: $params }) {
@@ -229,7 +244,6 @@ export const UpdateTaskDocument = gql`
     }
   }
 `;
-
 export type UpdateTaskMutationFn = Apollo.MutationFunction<
   UpdateTaskMutation,
   UpdateTaskMutationVariables
@@ -253,7 +267,6 @@ export type UpdateTaskMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-
 export function useUpdateTaskMutation(
   baseOptions?: Apollo.MutationHookOptions<
     UpdateTaskMutation,
@@ -274,6 +287,64 @@ export type UpdateTaskMutationResult =
 export type UpdateTaskMutationOptions = Apollo.BaseMutationOptions<
   UpdateTaskMutation,
   UpdateTaskMutationVariables
+>;
+export const FetchStatusesDocument = gql`
+  query FetchStatuses {
+    statuses {
+      id
+      name
+    }
+  }
+`;
+
+/**
+ * __useFetchStatusesQuery__
+ *
+ * To run a query within a React component, call `useFetchStatusesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchStatusesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchStatusesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFetchStatusesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    FetchStatusesQuery,
+    FetchStatusesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FetchStatusesQuery, FetchStatusesQueryVariables>(
+    FetchStatusesDocument,
+    options
+  );
+}
+export function useFetchStatusesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FetchStatusesQuery,
+    FetchStatusesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FetchStatusesQuery, FetchStatusesQueryVariables>(
+    FetchStatusesDocument,
+    options
+  );
+}
+export type FetchStatusesQueryHookResult = ReturnType<
+  typeof useFetchStatusesQuery
+>;
+export type FetchStatusesLazyQueryHookResult = ReturnType<
+  typeof useFetchStatusesLazyQuery
+>;
+export type FetchStatusesQueryResult = Apollo.QueryResult<
+  FetchStatusesQuery,
+  FetchStatusesQueryVariables
 >;
 export const FetchTaskByIdDocument = gql`
   query FetchTaskById($id: ID!) {
