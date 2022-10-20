@@ -59,12 +59,14 @@ type Mutation {
     """
     input: CreateTaskInput!
   ): CreateTaskPayload
+
   deleteTask(
     """
     Parameters for DeleteTask
     """
     input: DeleteTaskInput!
   ): DeleteTaskPayload
+
   updateTask(
     """
     Parameters for UpdateTask
