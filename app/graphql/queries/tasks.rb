@@ -3,7 +3,7 @@ module Queries
     type [ObjectTypes::TaskType], null: false
 
     def resolve
-      ::Task.all.order(created_at: "DESC")
+      ::Task.all.order(limit_on: :asc).order(created_at: :desc)
     end
   end
 end
