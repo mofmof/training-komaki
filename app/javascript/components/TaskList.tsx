@@ -21,13 +21,24 @@ const TaskList: React.FC = () => {
       {loading ? (
         <p>Loading ...</p>
       ) : (
-        <ul className="list-disc">
-          {data?.tasks.map((task) => (
-            <li key={task.id}>
-              <Link to={`/tasks/${task.id}`}>{task.title}</Link>
-            </li>
-          ))}
-        </ul>
+        <div className="table">
+          <div className="table-header-group">
+            <div className="table-row text-center">
+              <div className="table-cell  px-20">タイトル</div>
+              <div className="table-cell px-10">期限</div>
+            </div>
+          </div>
+          <div className="table-row-group">
+            {data?.tasks.map((task) => (
+              <div className="table-row text-center" key={task.id}>
+                <div className="table-cell">
+                  <Link to={`/tasks/${task.id}`}>{task.title}</Link>
+                </div>
+                <div className="table-cell">{task.limitOn}</div>
+              </div>
+            ))}
+          </div>
+        </div>
       )}
     </div>
   );
