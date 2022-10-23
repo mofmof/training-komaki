@@ -63,6 +63,8 @@ type Task {
   detail: String
   id: ID!
   limitOn: ISO8601Date!
+  status: Status
+  statusId: ID
   title: String!
   updatedAt: ISO8601DateTime!
 }
@@ -70,6 +72,7 @@ type Task {
 input TaskInput {
   detail: String
   limitOn: String!
+  statusId: ID!
   title: String!
 }
 
