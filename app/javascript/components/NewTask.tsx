@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCreateTaskMutation } from "../generated/graphql";
+import {
+  useCreateTaskMutation,
+  useFetchStatusesQuery,
+} from "../generated/graphql";
 
 const AddTask: React.FC = () => {
   const navigate = useNavigate();
+  const { data } = useFetchStatusesQuery();
   const [createTask] = useCreateTaskMutation({
     onCompleted: (data) => {
       navigate(`/tasks/${data?.createTask?.task?.id}`);
@@ -12,6 +16,7 @@ const AddTask: React.FC = () => {
   const [title, setTitle] = useState("");
   const [detail, setDetail] = useState("");
   const [limitOn, setLimitOn] = useState("");
+  const [statusId, setStatusId] = useState("");
 
   return (
     <div className="container mx-auto">
@@ -64,18 +69,40 @@ const AddTask: React.FC = () => {
             }}
           />
         </div>
+        <div className="mb-8">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="statusId"
+          >
+            ステータス
+          </label>
+          <select
+            className="shadow border rounded py-2 px-3"
+            name="statusId"
+            onChange={(e) => {
+              setStatusId(e.target.value);
+            }}
+          >
+            {data?.statuses.map((status) => (
+              <option key={status.id} value={status.id}>
+                {status.name}
+              </option>
+            ))}
+          </select>
+        </div>
         <div>
           <button
             className="no-underline bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
             onClick={() => {
               void createTask({
                 variables: {
-                  params: { title, detail, limitOn },
+                  params: { title, detail, limitOn, statusId },
                 },
               });
               setTitle("");
               setDetail("");
               setLimitOn("");
+              setStatusId("");
             }}
           >
             追加

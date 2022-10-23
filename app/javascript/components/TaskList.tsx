@@ -56,9 +56,10 @@ const TaskList: React.FC = () => {
         <div className="table">
           <div className="table-header-group">
             <div className="table-row text-center">
-              <div className="table-cell  px-20">タイトル</div>
+              <div className="table-cell px-25">タイトル</div>
               <div className="table-cell px-10">期限</div>
-              <div className="table-cell px-20">アラート</div>
+              <div className="table-cell px-15">アラート</div>
+              <div className="table-cell px-10">ステータス</div>
             </div>
           </div>
           <div className="table-row-group">
@@ -69,6 +70,7 @@ const TaskList: React.FC = () => {
                 </div>
                 <div className="table-cell">{task.limitOn}</div>
                 <div className="table-cell">{alert4limitOn(task.limitOn)}</div>
+                <div className="table-cell">{task.status.name}</div>
               </div>
             ))}
           </div>
