@@ -23,13 +23,23 @@ const TaskList: React.FC = () => {
     const today: number = truncateDate(new Date()).getTime();
     const limitOn: Date = truncateDate(new Date(limit));
 
+    // アラート用定数
+    const AlertDays = {
+      FIRST: 3,
+      SECOND: 1,
+    } as const;
+
     const alertMsg = (): string => {
       if (today > limitOn.getTime()) {
         return "期限を過ぎています";
-      } else if (today === limitOn.setDate(new Date(limit).getDate() - 1)) {
-        return "期限の1日前です";
-      } else if (today === limitOn.setDate(new Date(limit).getDate() - 3)) {
-        return "期限の3日前です";
+      } else if (
+        today === limitOn.setDate(new Date(limit).getDate() - AlertDays.SECOND)
+      ) {
+        return `期限の${AlertDays.SECOND}日前です`;
+      } else if (
+        today === limitOn.setDate(new Date(limit).getDate() - AlertDays.FIRST)
+      ) {
+        return `期限の${AlertDays.FIRST}日前です`;
       }
       return "";
     };
