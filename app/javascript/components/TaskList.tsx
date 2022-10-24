@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 import { useFetchTasksQuery } from "../generated/graphql";
 
 const TaskList: React.FC = () => {
-  const { loading, data } = useFetchTasksQuery();
+  const { loading, data } = useFetchTasksQuery({
+    fetchPolicy: "cache-and-network",
+  });
 
   /**
    * Dateオブジェクトの時刻丸め関数
