@@ -109,6 +109,11 @@ const AddTask: React.FC = () => {
           </button>
         </div>
       </div>
+      <div className="text-center">
+        <Link className="no-underline" to="/">
+          - TOP -
+        </Link>
+      </div>
     </div>
   );
 };

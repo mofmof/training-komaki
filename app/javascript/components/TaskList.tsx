@@ -3,7 +3,51 @@ import { Link } from "react-router-dom";
 import { useFetchTasksQuery } from "../generated/graphql";
 
 const TaskList: React.FC = () => {
-  const { loading, data } = useFetchTasksQuery();
+  const { loading, data } = useFetchTasksQuery({
+    fetchPolicy: "cache-and-network",
+  });
+
+  /**
+   * Dateオブジェクトの時刻丸め関数
+   * @param date
+   * @returns
+   */
+  const truncateDate = (date: Date): Date => {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  };
+
+  /**
+   * 期日に対するアラート文字列を返す
+   * @param limit
+   * @returns
+   */
+  const alert4limitOn = (limit: string): string => {
+    const today: number = truncateDate(new Date()).getTime();
+    const limitOn: Date = truncateDate(new Date(limit));
+
+    // アラート用定数
+    const AlertDays = {
+      FIRST: 3,
+      SECOND: 1,
+    } as const;
+
+    const alertMsg = (): string => {
+      if (today > limitOn.getTime()) {
+        return "期限を過ぎています";
+      } else if (
+        today === limitOn.setDate(new Date(limit).getDate() - AlertDays.SECOND)
+      ) {
+        return `期限の${AlertDays.SECOND}日前です`;
+      } else if (
+        today === limitOn.setDate(new Date(limit).getDate() - AlertDays.FIRST)
+      ) {
+        return `期限の${AlertDays.FIRST}日前です`;
+      }
+      return "";
+    };
+
+    return alertMsg();
+  };
 
   /**
    * Dateオブジェクトの時刻丸め関数
