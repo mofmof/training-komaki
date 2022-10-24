@@ -7,6 +7,48 @@ const TaskList: React.FC = () => {
     fetchPolicy: "cache-and-network",
   });
 
+  /**
+   * Dateオブジェクトの時刻丸め関数
+   * @param date
+   * @returns
+   */
+  const truncateDate = (date: Date): Date => {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  };
+
+  /**
+   * 期日に対するアラート文字列を返す
+   * @param limit
+   * @returns
+   */
+  const alert4limitOn = (limit: string): string => {
+    const today: number = truncateDate(new Date()).getTime();
+    const limitOn: Date = truncateDate(new Date(limit));
+
+    // アラート用定数
+    const AlertDays = {
+      FIRST: 3,
+      SECOND: 1,
+    } as const;
+
+    const alertMsg = (): string => {
+      if (today > limitOn.getTime()) {
+        return "期限を過ぎています";
+      } else if (
+        today === limitOn.setDate(new Date(limit).getDate() - AlertDays.SECOND)
+      ) {
+        return `期限の${AlertDays.SECOND}日前です`;
+      } else if (
+        today === limitOn.setDate(new Date(limit).getDate() - AlertDays.FIRST)
+      ) {
+        return `期限の${AlertDays.FIRST}日前です`;
+      }
+      return "";
+    };
+
+    return alertMsg();
+  };
+
   return (
     <div className="container mx-auto">
       <h1 className="text-4xl font-bold text-center m-4">タスク一覧</h1>
@@ -28,6 +70,7 @@ const TaskList: React.FC = () => {
             <div className="table-row text-center">
               <div className="table-cell  px-20">タイトル</div>
               <div className="table-cell px-10">期限</div>
+              <div className="table-cell px-20">アラート</div>
             </div>
           </div>
           <div className="table-row-group">
@@ -37,6 +80,7 @@ const TaskList: React.FC = () => {
                   <Link to={`/tasks/${task.id}`}>{task.title}</Link>
                 </div>
                 <div className="table-cell">{task.limitOn}</div>
+                <div className="table-cell">{alert4limitOn(task.limitOn)}</div>
               </div>
             ))}
           </div>
