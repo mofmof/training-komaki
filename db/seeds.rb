@@ -1,7 +1,12 @@
 # ステータス追加
-Status.create(name: "未着手")
-Status.create(name: "着手中")
-Status.create(name: "完了")
+statuses = [
+  {id: 1, name: "未着手"},
+  {id: 2, name: "着手中"},
+  {id: 3, name: "完了"}
+]
+statuses.each do |status|
+  Status.find_or_create_by(category)
+end
 
 # タスク追加
 10.times do |n|
