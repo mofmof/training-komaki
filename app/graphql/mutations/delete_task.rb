@@ -5,7 +5,7 @@ module Mutations
     argument :id, ID, required: true
 
     def resolve(id:)
-      ::Task.find(id).destroy
+      ::Task.find(id).destroy!
       { id: }
     rescue StandardError => e
       GraphQL::ExecutionError.new(e.message)
