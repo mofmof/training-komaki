@@ -5,7 +5,7 @@ statuses = [
   {id: 3, name: "完了"}
 ]
 statuses.each do |status|
-  Status.find_or_create_by(category)
+  Status.find_or_create_by(status)
 end
 
 # タスク追加
