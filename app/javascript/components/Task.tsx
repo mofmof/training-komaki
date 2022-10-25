@@ -12,6 +12,7 @@ const Task: React.FC = () => {
     variables: {
       id: params.id,
     },
+    fetchPolicy: "cache-and-network",
   });
 
   const [deleteTaskMutation] = useDeleteTaskMutation({
