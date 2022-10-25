@@ -1,5 +1,8 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { signOut } from "../api/auth";
+import { AuthContext } from "../App";
 import { useFetchTasksQuery } from "../generated/graphql";
 
 const TaskList: React.FC = () => {
