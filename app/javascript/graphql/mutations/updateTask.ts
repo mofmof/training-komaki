@@ -8,6 +8,7 @@ export const UPDATE_TASK = gql`
         title
         detail
         limitOn
+        statusId
       }
     }
   }

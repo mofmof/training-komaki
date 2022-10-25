@@ -14,12 +14,20 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_24_060403) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "statuses", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "tasks", force: :cascade do |t|
     t.string "title", null: false
-    t.text "detail", null: false
+    t.text "detail"
     t.date "limit_on", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "status_id"
+    t.index ["status_id"], name: "index_tasks_on_status_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -47,4 +55,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_24_060403) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "tasks", "statuses"
 end

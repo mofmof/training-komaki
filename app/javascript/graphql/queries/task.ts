@@ -7,6 +7,11 @@ export const FETCH_TASK_BY_ID = gql`
       title
       detail
       limitOn
+      statusId
+      status {
+        id
+        name
+      }
     }
   }
 `;

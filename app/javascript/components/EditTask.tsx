@@ -4,6 +4,7 @@ import {
   useFetchTaskByIdQuery,
   useUpdateTaskMutation,
 } from "../generated/graphql";
+import SelectStatus from "./SelectStatus";
 
 const EditTask: React.FC = () => {
   const params = useParams();
@@ -18,6 +19,11 @@ const EditTask: React.FC = () => {
   const [title, setTitle] = useState(data?.task.title);
   const [detail, setDetail] = useState(data?.task.detail);
   const [limitOn, setLimitOn] = useState(data?.task.limitOn);
+  const [statusId, setStatusId] = useState(data?.task.statusId);
+
+  const changeStatus = (state: string): void => {
+    setStatusId(state);
+  };
 
   const [updateTask] = useUpdateTaskMutation({
     onCompleted: (data) => {
@@ -79,6 +85,7 @@ const EditTask: React.FC = () => {
             }}
           />
         </div>
+        <SelectStatus statusId={statusId} changeStatus={changeStatus} />
         <div>
           <Link
             className="no-underline mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -92,12 +99,13 @@ const EditTask: React.FC = () => {
               void updateTask({
                 variables: {
                   id: params.id,
-                  params: { title, detail, limitOn },
+                  params: { title, detail, limitOn, statusId },
                 },
               });
               setTitle("");
               setDetail("");
               setLimitOn("");
+              setStatusId("");
             }}
           >
             更新
