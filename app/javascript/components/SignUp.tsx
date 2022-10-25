@@ -1,8 +1,11 @@
+import Cookies from "js-cookie";
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
-import { signUp } from "../api/auth";
+import { Link, useNavigate } from "react-router-dom";
+import { signIn, signUp } from "../api/auth";
 import { AuthContext } from "../App";
+
 const SignUp: React.FC = () => {
+  const navigate = useNavigate();
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
   const [userName, setUserName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -20,6 +23,24 @@ const SignUp: React.FC = () => {
     try {
       const res = await signUp(params);
       console.log(res);
+      // signUpに成功したらsignIn
+      if (res.status === 200) {
+        try {
+          const res = await signIn(params);
+          if (res.status === 200) {
+            Cookies.set("_access_token", res.headers["access-token"]);
+            Cookies.set("_client", res.headers.client);
+            Cookies.set("_uid", res.headers.uid);
+
+            setIsSignedIn(true);
+            setCurrentUser(res.data.data);
+
+            navigate("/");
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      }
     } catch (e) {
       console.log(e);
     }
