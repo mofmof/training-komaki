@@ -5,5 +5,6 @@ module InputTypes
     argument :title, String, required: true
     argument :detail, String, required: false
     argument :limit_on, String, required: true
+    argument :status_id, ID, required: true
   end
 end

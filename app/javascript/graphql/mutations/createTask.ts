@@ -8,6 +8,7 @@ export const CREATE_TASK = gql`
         title
         detail
         limitOn
+        statusId
       }
     }
   }
