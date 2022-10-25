@@ -24,7 +24,7 @@ module Myapp
     config.middleware.use ActionDispatch::Flash
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins 'localhost:3000'
+        origins 'localhost:3000', 'https://myapp-er7p.onrender.com'
         resource '*',
                  :headers => :any,
                  :expose => ['access-token', 'expiry', 'token-type', 'uid', 'client'],
