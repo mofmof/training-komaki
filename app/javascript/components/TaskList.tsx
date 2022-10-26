@@ -30,7 +30,7 @@ const TaskList: React.FC = () => {
         return "期限を過ぎています";
       } else if (today === limitOn.setDate(new Date(limit).getDate() - 1)) {
         return "期限の1日前です";
-      } else if (today === limitOn.setDate(new Date(limit).getDate() - 3)) {
+      } else if (today >= limitOn.setDate(new Date(limit).getDate() - 3)) {
         return "期限の3日前です";
       }
       return "";
