@@ -71,17 +71,19 @@ const App: React.FC = () => {
           setCurrentUser,
         }}
       >
-        <Routes>
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route element={<RequireAuth />}>
-            <Route path="/" element={<TaskList />} />
-            <Route path="/tasks/:id" element={<Task />} />
-            <Route path="/tasks/new" element={<NewTask />} />
-            <Route path="/tasks/:id/edit" element={<EditTask />} />
-          </Route>
-          <Route path="*" element={<ErrorPage />} />
-        </Routes>
+        {!loading && (
+          <Routes>
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route element={<RequireAuth />}>
+              <Route path="/" element={<TaskList />} />
+              <Route path="/tasks/:id" element={<Task />} />
+              <Route path="/tasks/new" element={<NewTask />} />
+              <Route path="/tasks/:id/edit" element={<EditTask />} />
+            </Route>
+            <Route path="*" element={<ErrorPage />} />
+          </Routes>
+        )}
       </AuthContext.Provider>
     </BrowserRouter>
   );
