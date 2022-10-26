@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { AuthContext } from "../App";
-import SignOut from "./SignOut";
+import Header from "./Header";
 
 const RequireAuth: React.FC = () => {
   const contextValue = useContext(AuthContext);
@@ -11,7 +11,7 @@ const RequireAuth: React.FC = () => {
   }
   return (
     <>
-      <SignOut />
+      <Header />
       <Outlet />
     </>
   );
