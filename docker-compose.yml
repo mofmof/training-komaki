@@ -36,5 +36,27 @@ services:
     volumes:
       - .:/myapp
 
+  redis:
+    image: "redis"
+    ports:
+      - "6379:6379"
+    volumes:
+      - "./data/redis:/data"
+
+  sidekiq:
+    build: .
+    command: bundle exec sidekiq
+    volumes:
+      - .:/myapp
+      - bundle_data:/usr/local/bundle
+    environment:
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      - db
+      - redis
+
+
 volumes:
   postgres_volume:
+  bundle_data:
+  redis:
