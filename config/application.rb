@@ -12,5 +12,7 @@ module Myapp
     config.load_defaults 7.0
 
     config.active_job.queue_adapter = :sidekiq
+    config.active_record.default_timezone = :local
+    config.time_zone = 'Tokyo'
   end
 end

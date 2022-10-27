@@ -1,0 +1,4 @@
+:schedule:
+  sample_job:
+    cron: "0 9 * * * *"
+    class: AlertMailJob
