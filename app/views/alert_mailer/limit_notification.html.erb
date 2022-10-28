@@ -1,1 +1,20 @@
-<p>テストメールです</p>
+<p>期限が近づいているタスクがあります。確認してください。</p>
+
+<table>
+	<tbody>
+		<tr>
+			<td>タイトル</td>
+			<td>アラート</td>
+		</tr>
+    <% @tasks.each do |task| %>
+		<tr>
+			<td><%= task.title %></td>
+			<% if task.limit_on === Date.today + Settings.alert_days.SECOND %>
+        <td>期限1日前です</td>
+      <% elsif task.limit_on === Date.today + Settings.alert_days.FIRST %>
+        <td>期限3日前です</td>
+      <% end %>
+		</tr>
+    <% end %>
+	</tbody>
+</table>

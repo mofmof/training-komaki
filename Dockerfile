@@ -5,6 +5,7 @@ RUN apt-get update -qq && \
     n 16.17.1
 RUN mkdir /myapp
 WORKDIR /myapp
+ENV TZ Asia/Tokyo
 ADD Gemfile /myapp/Gemfile
 ADD Gemfile.lock /myapp/Gemfile.lock
 RUN bundle install
