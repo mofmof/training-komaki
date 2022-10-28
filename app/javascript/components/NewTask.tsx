@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../App";
 import {
   useCreateTaskMutation,
   useFetchStatusesQuery,
 } from "../generated/graphql";
 
 const AddTask: React.FC = () => {
+  const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const { data } = useFetchStatusesQuery();
   const [createTask] = useCreateTaskMutation({
@@ -16,7 +18,8 @@ const AddTask: React.FC = () => {
   const [title, setTitle] = useState("");
   const [detail, setDetail] = useState("");
   const [limitOn, setLimitOn] = useState("");
-  const [statusId, setStatusId] = useState("");
+  const [statusId, setStatusId] = useState(1);
+  const userId = currentUser?.id;
 
   return (
     <div className="container mx-auto">
@@ -96,7 +99,7 @@ const AddTask: React.FC = () => {
             onClick={() => {
               void createTask({
                 variables: {
-                  params: { title, detail, limitOn, statusId },
+                  params: { title, detail, limitOn, statusId, userId },
                 },
               });
               setTitle("");
