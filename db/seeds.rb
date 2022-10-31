@@ -8,7 +8,10 @@ statuses.each do |status|
   Status.find_or_create_by(status)
 end
 
+# ユーザー追加
+User.create!(name: "test", email: "test@example.com", password: "password")
+
 # タスク追加
 10.times do |n|
-  Task.create!(title: "タスク#{n + 1}", detail: "詳細#{n + 1}", limit_on: Time.zone.today + 3, status_id: 1)
+  Task.create!(title: "タスク#{n + 1}", detail: "詳細#{n + 1}", limit_on: Time.zone.today + 3, status_id: 1, user_id: 1)
 end

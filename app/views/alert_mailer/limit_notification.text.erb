@@ -1,0 +1,9 @@
+期限が近づいているタスクがあります。確認してください。
+
+<% @tasks.each do |task| %>
+	<% if task.limit_on === Date.today + Settings.alert_days.SECOND %>
+		<%= task.title %> : 期限1日前です
+	<% elsif task.limit_on === Date.today + Settings.alert_days.FIRST %>
+		<%= task.title %> : 期限3日前です
+	<% end %>
+<% end %>

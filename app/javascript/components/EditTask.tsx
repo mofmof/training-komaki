@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { AuthContext } from "../App";
 import {
   useFetchTaskByIdQuery,
   useUpdateTaskMutation,
@@ -7,6 +8,7 @@ import {
 import SelectStatus from "./SelectStatus";
 
 const EditTask: React.FC = () => {
+  const { currentUser } = useContext(AuthContext);
   const params = useParams();
   const navigate = useNavigate();
 
@@ -20,6 +22,7 @@ const EditTask: React.FC = () => {
   const [detail, setDetail] = useState(data?.task.detail);
   const [limitOn, setLimitOn] = useState(data?.task.limitOn);
   const [statusId, setStatusId] = useState(data?.task.statusId);
+  const userId = currentUser?.id;
 
   const changeStatus = (state: string): void => {
     setStatusId(state);
@@ -99,7 +102,7 @@ const EditTask: React.FC = () => {
               void updateTask({
                 variables: {
                   id: params.id,
-                  params: { title, detail, limitOn, statusId },
+                  params: { title, detail, limitOn, statusId, userId },
                 },
               });
               setTitle("");
