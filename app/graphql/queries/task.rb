@@ -4,7 +4,7 @@ module Queries
     argument :id, ID, required: true
 
     def resolve(id:)
-      ::Task.joins(:status).find(id)
+      current_user.tasks.find(id)
     end
   end
 end
