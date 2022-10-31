@@ -13,7 +13,7 @@ services:
     maxmemoryPolicy: noeviction
     ipAllowList: [] # only allow internal connections
 
-  - type: worker
+  - type: web
     name: sidekiq-worker
     env: ruby
     plan: free
