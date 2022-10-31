@@ -27,6 +27,8 @@ services:
       - db
       - vite
       - redis
+    stdin_open: true
+    tty: true
 
   vite:
     build: .

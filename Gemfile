@@ -90,6 +90,7 @@ group :development do
   # gem "spring"
   gem "graphiql-rails"
   gem 'letter_opener_web'
+  gem 'pry-rails'
 end
 
 group :test do
