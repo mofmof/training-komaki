@@ -22,21 +22,37 @@ const TaskList: React.FC = () => {
    * @returns
    */
   const alert4limitOn = (limit: string): string => {
+    // アラート用定数
+    const AlertDays = {
+      FIRST: 3,
+      SECOND: 1,
+    } as const;
+
+    const AlertColors = {
+      FIRST: "bg-yellow-300",
+      SECOND: "bg-orange-300",
+      OVER: "bg-red-300",
+    } as const;
+
     const today: number = truncateDate(new Date()).getTime();
     const limitOn: Date = truncateDate(new Date(limit));
 
-    const alertMsg = (): string => {
+    const alertColor = (): string => {
       if (today > limitOn.getTime()) {
-        return "期限を過ぎています";
-      } else if (today === limitOn.setDate(new Date(limit).getDate() - 1)) {
-        return "期限の1日前です";
-      } else if (today === limitOn.setDate(new Date(limit).getDate() - 3)) {
-        return "期限の3日前です";
+        return AlertColors.OVER;
+      } else if (
+        today >= limitOn.setDate(new Date(limit).getDate() - AlertDays.SECOND)
+      ) {
+        return AlertColors.SECOND;
+      } else if (
+        today >= limitOn.setDate(new Date(limit).getDate() - AlertDays.FIRST)
+      ) {
+        return AlertColors.FIRST;
       }
       return "";
     };
 
-    return alertMsg();
+    return alertColor();
   };
 
   return (
@@ -58,20 +74,23 @@ const TaskList: React.FC = () => {
         <div className="table">
           <div className="table-header-group">
             <div className="table-row text-center">
-              <div className="table-cell px-25">タイトル</div>
-              <div className="table-cell px-10">期限</div>
-              <div className="table-cell px-15">アラート</div>
-              <div className="table-cell px-10">ステータス</div>
+              <div className="table-cell px-40">タイトル</div>
+              <div className="table-cell px-15">期限</div>
+              <div className="table-cell px-15">ステータス</div>
             </div>
           </div>
           <div className="table-row-group">
             {data?.tasks.map((task) => (
-              <div className="table-row text-center" key={task.id}>
+              <div
+                className={`table-row text-center ${alert4limitOn(
+                  task.limitOn
+                )}`}
+                key={task.id}
+              >
                 <div className="table-cell">
                   <Link to={`/tasks/${task.id}`}>{task.title}</Link>
                 </div>
                 <div className="table-cell">{task.limitOn}</div>
-                <div className="table-cell">{alert4limitOn(task.limitOn)}</div>
                 <div className="table-cell">{task.status.name}</div>
               </div>
             ))}
