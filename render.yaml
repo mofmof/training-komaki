@@ -8,6 +8,7 @@ databases:
 services:
   - type: redis
     name: sidekiq-redis
+    plan: free
     region: singapore
     maxmemoryPolicy: noeviction
     ipAllowList: [] # only allow internal connections
@@ -15,6 +16,7 @@ services:
   - type: worker
     name: sidekiq-worker
     env: ruby
+    plan: free
     region: singapore
     buildCommand: bundle install
     startCommand: bundle exec sidekiq -q default -q mailers
