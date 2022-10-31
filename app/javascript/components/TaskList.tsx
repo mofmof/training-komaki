@@ -38,7 +38,7 @@ const TaskList: React.FC = () => {
 
     return alertMsg();
   };
-  console.log(data?.tasks);
+
   return (
     <div className="container mx-auto">
       <h1 className="text-4xl font-bold text-center m-4">タスク一覧</h1>
