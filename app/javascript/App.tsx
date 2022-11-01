@@ -9,6 +9,7 @@ import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 import { getCurrentUser } from "./api/auth";
 import RequireAuth from "./components/RequireAuth";
+import UserList from "./components/UserList";
 
 interface User {
   id: number;
@@ -21,6 +22,7 @@ interface User {
   allowPasswordChange: boolean;
   created_at: Date;
   updated_at: Date;
+  role: string;
 }
 
 interface AuthContextType {
@@ -80,6 +82,7 @@ const App: React.FC = () => {
               <Route path="/tasks/:id" element={<Task />} />
               <Route path="/tasks/new" element={<NewTask />} />
               <Route path="/tasks/:id/edit" element={<EditTask />} />
+              <Route path="/users" element={<UserList />} />
             </Route>
             <Route path="*" element={<ErrorPage />} />
           </Routes>

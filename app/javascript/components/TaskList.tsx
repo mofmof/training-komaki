@@ -38,7 +38,7 @@ const TaskList: React.FC = () => {
     const limitOn: Date = truncateDate(new Date(limit));
 
     const alertColor = (): string => {
-      console.log(today, limitOn.getTime());
+
       if (today > limitOn.getTime()) {
         return AlertColors.OVER;
       } else if (

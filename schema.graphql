@@ -52,6 +52,11 @@ An ISO 8601-encoded datetime
 """
 scalar ISO8601DateTime
 
+"""
+Represents untyped JSON
+"""
+scalar JSON
+
 type Mutation {
   createTask(
     """
@@ -77,6 +82,7 @@ type Query {
   statuses: [Status!]!
   task(id: ID!): Task!
   tasks: [Task!]!
+  users: [User!]!
 }
 
 type Status {
@@ -127,4 +133,27 @@ type UpdateTaskPayload {
   """
   clientMutationId: String
   task: Task!
+}
+
+type User {
+  allowPasswordChange: Boolean
+  confirmationSentAt: ISO8601DateTime
+  confirmationToken: String
+  confirmedAt: ISO8601DateTime
+  createdAt: ISO8601DateTime!
+  email: String
+  encryptedPassword: String!
+  id: ID!
+  image: String
+  name: String
+  nickname: String
+  provider: String!
+  rememberCreatedAt: ISO8601DateTime
+  resetPasswordSentAt: ISO8601DateTime
+  resetPasswordToken: String
+  role: Int!
+  tokens: JSON
+  uid: String!
+  unconfirmedEmail: String
+  updatedAt: ISO8601DateTime!
 }

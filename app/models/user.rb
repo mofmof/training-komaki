@@ -7,4 +7,5 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
   has_many :tasks
+  enum role: {general: 0, admin: 1}
 end
