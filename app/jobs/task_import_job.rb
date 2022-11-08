@@ -20,7 +20,7 @@ class TaskImportJob < ApplicationJob
         user_id: user.id
       )
     end
-    CompleteMailer.complete_notification(user).deliver_now
+    CompleteMailer.complete_notification(user, "タスクのインポートが完了しました", "").deliver_now
   rescue => e
     ErrorMailer.error_notification(user, e).deliver_now
   ensure
