@@ -70,7 +70,7 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :mailgun
   config.action_mailer.mailgun_settings = {
     api_key: Rails.application.credentials.dig(:mailgun, :private_api_key),
-    domain: 'https://app.mailgun.com/app/sending/domains/sandboxa80efd44c9f34c51b85cd0703b18a190.mailgun.org',
+    domain: 'sandboxa80efd44c9f34c51b85cd0703b18a190.mailgun.org',
     # api_host: 'api.eu.mailgun.net'  # Uncomment this line for EU region domains
   }
 
