@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useFetchTasksQuery } from "../generated/graphql";
+import {
+  useFetchTasksQuery,
+  useImportTaskMutation,
+} from "../generated/graphql";
+import { FETCH_TASKS } from "../graphql/queries/tasks";
 
 const TaskList: React.FC = () => {
   const { loading, data } = useFetchTasksQuery({
@@ -38,7 +42,6 @@ const TaskList: React.FC = () => {
     const limitOn: Date = truncateDate(new Date(limit));
 
     const alertColor = (): string => {
-
       if (today > limitOn.getTime()) {
         return AlertColors.OVER;
       } else if (
@@ -56,17 +59,66 @@ const TaskList: React.FC = () => {
     return alertColor();
   };
 
+  // CSVアップロード
+  const [file, setFile] = useState("");
+  const [importTaskMutation, { data: msg }] = useImportTaskMutation({
+    variables: {
+      file,
+    },
+    refetchQueries: ["FetchTasks"],
+    onCompleted: (result) => {
+      // flash message
+      let target = document.getElementById("info");
+      target.style.visibility = "visible";
+      setTimeout(() => {
+        target.style = null;
+      }, 3000);
+    },
+  });
+
   return (
     <div className="container mx-auto">
       <h1 className="text-4xl font-bold text-center m-4">タスク一覧</h1>
       <hr className="my-2" />
+      <div
+        className="bg-blue-100 border border-blue-500 text-blue-700 px-4 py-3 my-2 rounded invisible"
+        role="alert"
+        id="info"
+      >
+        <p className="text-sm">{msg?.importTask?.message}</p>
+      </div>
       <div className="mb-5">
         <Link
-          className="no-underline bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          className="no-underline mr-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
           to="/tasks/new"
         >
           追加
         </Link>
+        <div className="inline-block">
+          <form>
+            <button
+              className="text-sm mr-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+              type="submit"
+              onClick={(e) => {
+                e.preventDefault();
+                void importTaskMutation({
+                  variables: { file },
+                });
+              }}
+            >
+              インポート
+            </button>
+            <input
+              id="import"
+              type="file"
+              accept=".csv"
+              required
+              onChange={(e) => {
+                setFile(e.target.files[0]);
+              }}
+            />
+          </form>
+        </div>
       </div>
 
       {loading ? (
