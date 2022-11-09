@@ -5,7 +5,7 @@ class TaskExportJob < ApplicationJob
   def perform(user)
 
     # CSV生成
-    output = CSV.generate do |csv|
+    CSV.open("tmp/tmpfile.csv", "w") do |csv|
       csv << %w(id title detail limit_on status_id)
       user.tasks.each do |task|
         values = [
@@ -22,7 +22,7 @@ class TaskExportJob < ApplicationJob
     s3 = Aws::S3::Client.new(
       access_key_id: Rails.application.credentials.dig(:aws, :access_key_id),
       secret_access_key: Rails.application.credentials.dig(:aws, :secret_access_key),
-      region: Rails.application.credentials.dig(:aws, :s3, :region)
+      region: Rails.application.credentials.dig(:aws, :s3, :region),
     )
 
     # オブジェクトのキー
@@ -32,7 +32,7 @@ class TaskExportJob < ApplicationJob
     s3.put_object(
                   bucket: Rails.application.credentials.dig(:aws, :s3, :bucket),
                   key: key,
-                  body: NKF.nkf('-w', output),
+                  body: File.open("tmp/tmpfile.csv"),
                   content_type: 'text/csv'
                 )
 
