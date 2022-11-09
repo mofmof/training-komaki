@@ -1,5 +1,5 @@
 <p><%= @message %></p>
 
 <% unless @url.empty? %>
-  <%= @url %>
+  <%= link_to "CSVファイルをダウンロード", @url %>
 <% end %>
