@@ -1,5 +1,5 @@
 module Mutations
-  class ExportTask < NoArgumentsMutation
+  class ExportTask < BaseMutation
     field :message, String, null: false
 
     def resolve
