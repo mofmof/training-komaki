@@ -4,10 +4,12 @@ import {
   useFetchTasksQuery,
   useImportTaskMutation,
 } from "../generated/graphql";
-import { FETCH_TASKS } from "../graphql/queries/tasks";
 
 const TaskList: React.FC = () => {
-  const { loading, data } = useFetchTasksQuery({
+  const { loading, data, fetchMore } = useFetchTasksQuery({
+    variables: {
+      first: 10,
+    },
     fetchPolicy: "cache-and-network",
   });
 
@@ -132,24 +134,58 @@ const TaskList: React.FC = () => {
               <div className="table-cell px-15">ステータス</div>
             </div>
           </div>
-          <div className="table-row-group">
-            {data?.tasks.map((task) => (
+          <div id="task-list" className="table-row-group">
+            {data?.tasks?.edges?.map((task) => (
               <div
                 className={`table-row text-center ${alert4limitOn(
-                  task.limitOn
+                  task.node.limitOn
                 )}`}
-                key={task.id}
+                key={task.node.id}
               >
                 <div className="table-cell">
-                  <Link to={`/tasks/${task.id}`}>{task.title}</Link>
+                  <Link to={`/tasks/${task.node.id}`}>{task.node.title}</Link>
                 </div>
-                <div className="table-cell">{task.limitOn}</div>
-                <div className="table-cell">{task.status.name}</div>
+                <div className="table-cell">{task.node.limitOn}</div>
+                <div className="table-cell">{task.node.status.name}</div>
               </div>
             ))}
           </div>
         </div>
       )}
+      <div className="mt-5 text-center">
+        <button
+          className="m-2 p-2 font-bold border rounded disabled:bg-slate-50 disabled:text-slate-500"
+          disabled={!(data?.tasks.pageInfo.hasPreviousPage ?? false)}
+          onClick={() => {
+            void fetchMore({
+              variables: {
+                first: null,
+                last: 10,
+                before: data?.tasks.pageInfo.startCursor,
+              },
+            });
+          }}
+        >
+          ←前の10件
+        </button>
+        <button
+          className="m-2 p-2 font-bold border rounded disabled:bg-slate-50 disabled:text-slate-500"
+          disabled={!(data?.tasks.pageInfo.hasNextPage ?? false)}
+          onClick={() => {
+            void fetchMore({
+              variables: {
+                first: 10,
+                after: data?.tasks.pageInfo.endCursor,
+              },
+              updateQuery: (prevResult, { fetchMoreResult }) => {
+                return fetchMoreResult;
+              },
+            });
+          }}
+        >
+          次の10件→
+        </button>
+      </div>
     </div>
   );
 };
