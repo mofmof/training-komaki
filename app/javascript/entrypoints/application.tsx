@@ -6,6 +6,7 @@ import App from "../App";
 import "virtual:windi.css";
 import Cookies from "js-cookie";
 import { createUploadLink } from "apollo-upload-client";
+import { relayStylePagination } from "@apollo/client/utilities";
 
 const container = document.getElementById("root") as HTMLElement;
 const root = createRoot(container);
@@ -26,7 +27,18 @@ const client = new ApolloClient({
       uri: "/graphql",
     })
   ),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          tasks: {
+            keyArgs: false,
+            merge: true,
+          },
+        },
+      },
+    },
+  }),
 });
 
 document.addEventListener("DOMContentLoaded", () => {
