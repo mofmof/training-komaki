@@ -134,7 +134,7 @@ const TaskList: React.FC = () => {
               <div className="table-cell px-15">ステータス</div>
             </div>
           </div>
-          <div id="task-list" className="table-row-group">
+          <div className="table-row-group">
             {data?.tasks?.edges?.map((task) => (
               <div
                 className={`table-row text-center ${alert4limitOn(
@@ -176,9 +176,6 @@ const TaskList: React.FC = () => {
               variables: {
                 first: 10,
                 after: data?.tasks.pageInfo.endCursor,
-              },
-              updateQuery: (prevResult, { fetchMoreResult }) => {
-                return fetchMoreResult;
               },
             });
           }}
