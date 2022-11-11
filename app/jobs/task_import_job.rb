@@ -12,13 +12,15 @@ class TaskImportJob < ApplicationJob
     end
 
     CSV.foreach(tmp_file_path, headers: true).each do |row|
-      Task.create(
-        title: row['title'],
-        detail: row['detail'],
-        limit_on: row['limit_on'],
-        status_id: row['status'],
-        user_id: user.id
-      )
+      ApplicationRecord.transaction do
+        Task.create!(
+          title: row['title'],
+          detail: row['detail'],
+          limit_on: row['limit_on'],
+          status_id: row['status'],
+          user_id: user.id
+        )
+      end
     end
     CompleteMailer.complete_notification(user, "タスクのインポートが完了しました", "").deliver_now
   rescue => e

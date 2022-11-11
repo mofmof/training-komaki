@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
-import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { AuthContext } from "../App";
 import Header from "./Header";
+import UserList from "./UserList";
 
 export const Role = {
   ADMIN: "admin",
@@ -14,19 +15,11 @@ const RequireAuth: React.FC = () => {
   if (!isSignedIn) {
     return <Navigate to="/signin" />;
   }
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  if (currentUser?.role === Role.ADMIN) {
-    navigate("/users");
-  } else if (location.pathname === "/users") {
-    navigate("/");
-  }
 
   return (
     <>
       <Header />
-      <Outlet />
+      {currentUser?.role === Role.ADMIN ? <UserList /> : <Outlet />}
     </>
   );
 };

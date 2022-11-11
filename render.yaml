@@ -13,10 +13,10 @@ services:
     maxmemoryPolicy: noeviction
     ipAllowList: [] # only allow internal connections
 
-  - type: web
+  - type: worker
     name: sidekiq-worker
     env: ruby
-    plan: free
+    plan: starter
     region: singapore
     buildCommand: bundle install
     startCommand: bundle exec sidekiq -q default -q mailers
