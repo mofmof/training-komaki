@@ -128,6 +128,7 @@ export type QueryTasksArgs = {
   first?: InputMaybe<Scalars["Int"]>;
   from?: InputMaybe<Scalars["String"]>;
   last?: InputMaybe<Scalars["Int"]>;
+  title?: InputMaybe<Scalars["String"]>;
   to?: InputMaybe<Scalars["String"]>;
 };
 
@@ -309,6 +310,7 @@ export type FetchTasksQueryVariables = Exact<{
   after?: InputMaybe<Scalars["String"]>;
   from?: InputMaybe<Scalars["String"]>;
   to?: InputMaybe<Scalars["String"]>;
+  title?: InputMaybe<Scalars["String"]>;
 }>;
 
 export type FetchTasksQuery = {
@@ -694,6 +696,7 @@ export const FetchTasksDocument = gql`
     $after: String
     $from: String
     $to: String
+    $title: String
   ) {
     tasks(
       first: $first
@@ -702,6 +705,7 @@ export const FetchTasksDocument = gql`
       after: $after
       from: $from
       to: $to
+      title: $title
     ) {
       edges {
         node {
@@ -743,6 +747,7 @@ export const FetchTasksDocument = gql`
  *      after: // value for 'after'
  *      from: // value for 'from'
  *      to: // value for 'to'
+ *      title: // value for 'title'
  *   },
  * });
  */
