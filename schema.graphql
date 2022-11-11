@@ -155,6 +155,7 @@ type Query {
     Returns the last _n_ elements from the list.
     """
     last: Int
+    title: String
     to: String
   ): TaskConnection!
   users: [User!]!
