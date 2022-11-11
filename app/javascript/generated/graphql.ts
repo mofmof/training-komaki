@@ -116,16 +116,36 @@ export type MutationUpdateTaskArgs = {
   input: UpdateTaskInput;
 };
 
+/** Information about pagination in a connection. */
+export type PageInfo = {
+  __typename?: "PageInfo";
+  /** When paginating forwards, the cursor to continue. */
+  endCursor?: Maybe<Scalars["String"]>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars["Boolean"];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars["Boolean"];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor?: Maybe<Scalars["String"]>;
+};
+
 export type Query = {
   __typename?: "Query";
   statuses: Array<Status>;
   task: Task;
-  tasks: Array<Task>;
+  tasks: TaskConnection;
   users: Array<User>;
 };
 
 export type QueryTaskArgs = {
   id: Scalars["ID"];
+};
+
+export type QueryTasksArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
 };
 
 export type Status = {
@@ -147,6 +167,26 @@ export type Task = {
   title: Scalars["String"];
   updatedAt: Scalars["ISO8601DateTime"];
   userId?: Maybe<Scalars["ID"]>;
+};
+
+/** The connection type for Task. */
+export type TaskConnection = {
+  __typename?: "TaskConnection";
+  /** A list of edges. */
+  edges?: Maybe<Array<Maybe<TaskEdge>>>;
+  /** A list of nodes. */
+  nodes?: Maybe<Array<Maybe<Task>>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** An edge in a connection. */
+export type TaskEdge = {
+  __typename?: "TaskEdge";
+  /** A cursor for use in pagination. */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge. */
+  node?: Maybe<Task>;
 };
 
 export type TaskInput = {
@@ -286,18 +326,37 @@ export type FetchTaskByIdQuery = {
   };
 };
 
-export type FetchTasksQueryVariables = Exact<{ [key: string]: never }>;
+export type FetchTasksQueryVariables = Exact<{
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  after?: InputMaybe<Scalars["String"]>;
+}>;
 
 export type FetchTasksQuery = {
   __typename?: "Query";
-  tasks: Array<{
-    __typename?: "Task";
-    id: string;
-    title: string;
-    detail?: string | null;
-    limitOn: any;
-    status?: { __typename?: "Status"; id: string; name: string } | null;
-  }>;
+  tasks: {
+    __typename?: "TaskConnection";
+    edges?: Array<{
+      __typename?: "TaskEdge";
+      cursor: string;
+      node?: {
+        __typename?: "Task";
+        id: string;
+        title: string;
+        detail?: string | null;
+        limitOn: any;
+        status?: { __typename?: "Status"; id: string; name: string } | null;
+      } | null;
+    } | null> | null;
+    pageInfo: {
+      __typename?: "PageInfo";
+      hasPreviousPage: boolean;
+      hasNextPage: boolean;
+      startCursor?: string | null;
+      endCursor?: string | null;
+    };
+  };
 };
 
 export type FetchUsersQueryVariables = Exact<{ [key: string]: never }>;
@@ -700,15 +759,26 @@ export type FetchTaskByIdQueryResult = Apollo.QueryResult<
   FetchTaskByIdQueryVariables
 >;
 export const FetchTasksDocument = gql`
-  query FetchTasks {
-    tasks {
-      id
-      title
-      detail
-      limitOn
-      status {
-        id
-        name
+  query FetchTasks($first: Int, $last: Int, $before: String, $after: String) {
+    tasks(first: $first, last: $last, before: $before, after: $after) {
+      edges {
+        cursor
+        node {
+          id
+          title
+          detail
+          limitOn
+          status {
+            id
+            name
+          }
+        }
+      }
+      pageInfo {
+        hasPreviousPage
+        hasNextPage
+        startCursor
+        endCursor
       }
     }
   }
@@ -726,6 +796,10 @@ export const FetchTasksDocument = gql`
  * @example
  * const { data, loading, error } = useFetchTasksQuery({
  *   variables: {
+ *      first: // value for 'first'
+ *      last: // value for 'last'
+ *      before: // value for 'before'
+ *      after: // value for 'after'
  *   },
  * });
  */
