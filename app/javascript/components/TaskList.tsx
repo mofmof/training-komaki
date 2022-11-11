@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
+  useExportTaskMutation,
   useFetchTasksQuery,
   useImportTaskMutation,
 } from "../generated/graphql";
-import { FETCH_TASKS } from "../graphql/queries/tasks";
 
 const TaskList: React.FC = () => {
   const { loading, data } = useFetchTasksQuery({
@@ -59,20 +59,33 @@ const TaskList: React.FC = () => {
     return alertColor();
   };
 
-  // CSVアップロード
+  const flashMessage = (message: string): void => {
+    setMessage(message);
+    // flash message
+    const target = document.getElementById("info");
+    target.style.visibility = "visible";
+    setTimeout(() => {
+      target.style = null;
+    }, 3000);
+  };
+
+  // CSVインポート
+  const [message, setMessage] = useState("");
   const [file, setFile] = useState("");
-  const [importTaskMutation, { data: msg }] = useImportTaskMutation({
+  const [importTaskMutation] = useImportTaskMutation({
     variables: {
       file,
     },
     refetchQueries: ["FetchTasks"],
     onCompleted: (result) => {
-      // flash message
-      let target = document.getElementById("info");
-      target.style.visibility = "visible";
-      setTimeout(() => {
-        target.style = null;
-      }, 3000);
+      flashMessage(result?.importTask?.message);
+    },
+  });
+
+  // CSVエクスポート
+  const [exportTaskMutation] = useExportTaskMutation({
+    onCompleted: (result) => {
+      flashMessage(result?.exportTask?.message);
     },
   });
 
@@ -85,7 +98,7 @@ const TaskList: React.FC = () => {
         role="alert"
         id="info"
       >
-        <p className="text-sm">{msg?.importTask?.message}</p>
+        <p className="text-sm">{message}</p>
       </div>
       <div className="mb-5">
         <Link
@@ -94,6 +107,15 @@ const TaskList: React.FC = () => {
         >
           追加
         </Link>
+        <button
+          className="text-sm mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          type="button"
+          onClick={() => {
+            void exportTaskMutation();
+          }}
+        >
+          エクスポート
+        </button>
         <div className="inline-block">
           <form>
             <button
