@@ -44,8 +44,8 @@ class TaskExportJob < ApplicationJob
       response_content_type: 'application/force-download'
     )
 
-    CompleteMailer.complete_notification(user, "タスクのエクスポートが完了しました", url).deliver_now
+    CompleteMailer.complete_notification(user, "タスクのエクスポートが完了しました", url).deliver_now if user.notification_flg === "enabled"
   rescue => e
-    ErrorMailer.error_notification(user, e).deliver_now
+    ErrorMailer.error_notification(user, e).deliver_now if user.notification_flg === "enabled"
   end
 end
