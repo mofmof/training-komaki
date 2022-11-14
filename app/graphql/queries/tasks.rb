@@ -6,10 +6,10 @@ module Queries
     argument :to, String, required: false
     argument :title, String, required: false
 
-    def resolve(**args)
+    def resolve(from: nil, to: nil, title: nil, **args)
       tasks = current_user.tasks.order(limit_on: :asc, created_at: :desc)
-      tasks = tasks.where(limit_on: args[:from]..args[:to]) if args[:from].present? && args[:to].present?
-      tasks = tasks.where("title LIKE ?",  "%#{args[:title]}%") if args[:title].present?
+      tasks = tasks.where(limit_on: from..to) if from.present? && to.present?
+      tasks = tasks.where("title LIKE ?",  "%#{title}%") if title.present?
       tasks
     end
   end
