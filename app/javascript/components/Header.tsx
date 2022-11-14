@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "../api/auth";
 import { AuthContext } from "../App";
@@ -7,8 +7,12 @@ import { AuthContext } from "../App";
 const Header: React.FC = () => {
   const { setIsSignedIn, currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [toggle, setToggle] = useState(
+    currentUser?.notificationFlg === "enabled"
+  );
+  const toggleClass = "transform translate-x-5";
 
-  const handleSignOut = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSignOut = async (): Promise<void> => {
     try {
       const res = await signOut();
 
@@ -31,15 +35,38 @@ const Header: React.FC = () => {
   };
 
   return (
-    <div className="text-right mx-4 my-4">
-      <div className="mr-4 inline-block font-bold">{currentUser?.name}</div>
-      <button
-        className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-        type="submit"
-        onClick={async (e) => await handleSignOut(e)}
-      >
-        サインアウト
-      </button>
+    <div className="text-right mx-4">
+      <div className="py-2 px-2 inline-block font-bold">
+        {currentUser?.name}
+      </div>
+      <div className="py-2 px-2 inline-block text-center">
+        <span className="text-xs">メール通知</span>
+        <div
+          className={`mx-auto w-12 h-6 flex items-center rounded-full p-1 cursor-pointer ${
+            toggle ? "bg-blue-500" : "bg-gray-400"
+          }`}
+          onClick={() => {
+            setToggle(!toggle);
+            // 通知フラグ更新のMutation呼び出し
+          }}
+        >
+          {/* Switch */}
+          <div
+            className={`bg-white h-5 w-5 rounded-full transform duration-300 ease-in-out ${
+              toggle ? "" : toggleClass
+            }`}
+          ></div>
+        </div>
+      </div>
+      <div className="inline-block">
+        <button
+          className="hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+          type="submit"
+          onClick={async (e) => await handleSignOut(e)}
+        >
+          サインアウト
+        </button>
+      </div>
     </div>
   );
 };
