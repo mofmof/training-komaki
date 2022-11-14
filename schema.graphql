@@ -260,6 +260,7 @@ type User {
   image: String
   name: String
   nickname: String
+  notificationFlg: Int!
   provider: String!
   rememberCreatedAt: ISO8601DateTime
   resetPasswordSentAt: ISO8601DateTime
