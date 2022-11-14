@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "../api/auth";
 import { AuthContext } from "../App";
+import { useUpdateNotificationFlgMutation } from "../generated/graphql";
 
 const Header: React.FC = () => {
   const { setIsSignedIn, currentUser } = useContext(AuthContext);
@@ -34,6 +35,13 @@ const Header: React.FC = () => {
     }
   };
 
+  // 通知フラグ更新
+  const [updateNotificationFlgMutation] = useUpdateNotificationFlgMutation({
+    onCompleted: (data) => {
+      console.log(data.updateNotificationFlg?.result);
+    },
+  });
+
   return (
     <div className="text-right mx-4">
       <div className="py-2 px-2 inline-block font-bold">
@@ -47,7 +55,11 @@ const Header: React.FC = () => {
           }`}
           onClick={() => {
             setToggle(!toggle);
-            // 通知フラグ更新のMutation呼び出し
+            void updateNotificationFlgMutation({
+              variables: {
+                notificationFlg: !toggle ? "enabled" : "disabled",
+              },
+            });
           }}
         >
           {/* Switch */}
