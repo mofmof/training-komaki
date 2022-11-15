@@ -1,22 +1,15 @@
 import * as React from "react";
 import { createRoot } from "react-dom/client";
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  HttpLink,
-} from "@apollo/client";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import App from "../App";
 import "virtual:windi.css";
 import Cookies from "js-cookie";
+import { createUploadLink } from "apollo-upload-client";
+import { relayStylePagination } from "@apollo/client/utilities";
 
 const container = document.getElementById("root") as HTMLElement;
 const root = createRoot(container);
-
-const httpLink = new HttpLink({
-  uri: "/graphql",
-});
 
 const authLink = setContext((_, { headers }) => {
   return {
@@ -29,8 +22,23 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  link: authLink.concat(
+    createUploadLink({
+      uri: "/graphql",
+    })
+  ),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          tasks: {
+            keyArgs: false,
+            merge: true,
+          },
+        },
+      },
+    },
+  }),
 });
 
 document.addEventListener("DOMContentLoaded", () => {
