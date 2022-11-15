@@ -22,7 +22,8 @@ class TaskImportJob < ApplicationJob
         )
       end
     end
-    CompleteMailer.complete_notification(user).deliver_now if user.notification_flg === "enabled"
+
+    CompleteMailer.complete_notification(user, "タスクのインポートが完了しました", "").deliver_now if user.notification_flg === "enabled"
   rescue => e
     ErrorMailer.error_notification(user, e).deliver_now if user.notification_flg === "enabled"
   ensure
