@@ -23,6 +23,7 @@ interface User {
   created_at: Date;
   updated_at: Date;
   role: string;
+  notificationFlg: string;
 }
 
 interface AuthContextType {

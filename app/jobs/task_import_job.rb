@@ -22,9 +22,10 @@ class TaskImportJob < ApplicationJob
         )
       end
     end
-    CompleteMailer.complete_notification(user, "タスクのインポートが完了しました", "").deliver_now
+
+    CompleteMailer.complete_notification(user, "タスクのインポートが完了しました", "").deliver_now if user.notification_flg === "enabled"
   rescue => e
-    ErrorMailer.error_notification(user, e).deliver_now
+    ErrorMailer.error_notification(user, e).deliver_now if user.notification_flg === "enabled"
   ensure
     File.delete(tmp_file_path) if File.exist?(tmp_file_path)
   end

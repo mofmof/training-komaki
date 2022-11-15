@@ -8,4 +8,5 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
   has_many :tasks
   enum role: {general: 0, admin: 1}
+  enum notification_flg: {disabled: 0, enabled: 1}
 end
