@@ -3,12 +3,13 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "../api/auth";
 import { AuthContext } from "../App";
+import NotificationToggle from "./NotificationToggle";
 
 const Header: React.FC = () => {
   const { setIsSignedIn, currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const handleSignOut = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSignOut = async (): Promise<void> => {
     try {
       const res = await signOut();
 
@@ -31,15 +32,20 @@ const Header: React.FC = () => {
   };
 
   return (
-    <div className="text-right mx-4 my-4">
-      <div className="mr-4 inline-block font-bold">{currentUser?.name}</div>
-      <button
-        className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-        type="submit"
-        onClick={async (e) => await handleSignOut(e)}
-      >
-        サインアウト
-      </button>
+    <div className="text-right mx-4">
+      <div className="py-2 px-2 inline-block font-bold">
+        {currentUser?.name}
+      </div>
+      <NotificationToggle />
+      <div className="inline-block">
+        <button
+          className="hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+          type="submit"
+          onClick={async (e) => await handleSignOut(e)}
+        >
+          サインアウト
+        </button>
+      </div>
     </div>
   );
 };

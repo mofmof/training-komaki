@@ -22,5 +22,6 @@ module ObjectTypes
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
     field :role, Integer, null: false
+    field :notification_flg, Integer, null: false
   end
 end
