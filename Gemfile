@@ -67,8 +67,6 @@ gem 'sidekiq-scheduler'
 
 gem 'config'
 
-gem 'mailgun-ruby'
-
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: [:mri, :mingw, :x64_mingw]
@@ -79,6 +77,7 @@ group :development, :test do
   gem 'rubocop-rspec', require: false
   # RSpecを高速化するため
   gem 'spring-commands-rspec'
+  gem 'factory_bot_rails'
 end
 
 group :development do
