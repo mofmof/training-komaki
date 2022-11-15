@@ -8,6 +8,7 @@ export const FETCH_TASKS = gql`
     $after: String
     $from: String
     $to: String
+    $title: String
   ) {
     tasks(
       first: $first
@@ -16,6 +17,7 @@ export const FETCH_TASKS = gql`
       after: $after
       from: $from
       to: $to
+      title: $title
     ) {
       edges {
         node {

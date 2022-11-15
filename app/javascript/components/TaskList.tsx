@@ -81,6 +81,8 @@ const TaskList: React.FC = () => {
   // 期限で絞り込み
   const [fromLimitOn, setFromLimitOn] = useState("");
   const [toLimitOn, setToLimitOn] = useState("");
+  // タイトルで検索
+  const [title, setTitle] = useState("");
 
   return (
     <div className="container mx-auto">
@@ -181,6 +183,7 @@ const TaskList: React.FC = () => {
                 variables: {
                   from: fromLimitOn,
                   to: toLimitOn,
+                  title,
                 },
               });
             }}
@@ -188,6 +191,31 @@ const TaskList: React.FC = () => {
             絞り込み
           </button>
         </form>
+      </div>
+      <div className="mb-4">
+        <label
+          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+          htmlFor="title"
+        >
+          タイトルで検索
+        </label>
+        <input
+          className="appearance-none block w-full bg-white text-gray-700 border shadow rounded py-3 px-4 leading-tight focus:bg-white focus:border-gray-500"
+          name="title"
+          type="text"
+          placeholder="タイトル"
+          value={title}
+          onChange={(e) => {
+            setTitle(e.target.value);
+            void fetchMore({
+              variables: {
+                from: fromLimitOn,
+                to: toLimitOn,
+                title: e.target.value,
+              },
+            });
+          }}
+        />
       </div>
       {loading ? (
         <p>Loading ...</p>
@@ -228,6 +256,9 @@ const TaskList: React.FC = () => {
                 first: null,
                 last: 10,
                 before: data?.tasks.pageInfo.startCursor,
+                from: fromLimitOn,
+                to: toLimitOn,
+                title,
               },
             });
           }}
@@ -242,6 +273,9 @@ const TaskList: React.FC = () => {
               variables: {
                 first: 10,
                 after: data?.tasks.pageInfo.endCursor,
+                from: fromLimitOn,
+                to: toLimitOn,
+                title,
               },
             });
           }}
