@@ -145,7 +145,10 @@ export type QueryTasksArgs = {
   after?: InputMaybe<Scalars["String"]>;
   before?: InputMaybe<Scalars["String"]>;
   first?: InputMaybe<Scalars["Int"]>;
+  from?: InputMaybe<Scalars["String"]>;
   last?: InputMaybe<Scalars["Int"]>;
+  title?: InputMaybe<Scalars["String"]>;
+  to?: InputMaybe<Scalars["String"]>;
 };
 
 export type Status = {
@@ -331,6 +334,9 @@ export type FetchTasksQueryVariables = Exact<{
   last?: InputMaybe<Scalars["Int"]>;
   before?: InputMaybe<Scalars["String"]>;
   after?: InputMaybe<Scalars["String"]>;
+  from?: InputMaybe<Scalars["String"]>;
+  to?: InputMaybe<Scalars["String"]>;
+  title?: InputMaybe<Scalars["String"]>;
 }>;
 
 export type FetchTasksQuery = {
@@ -339,7 +345,6 @@ export type FetchTasksQuery = {
     __typename?: "TaskConnection";
     edges?: Array<{
       __typename?: "TaskEdge";
-      cursor: string;
       node?: {
         __typename?: "Task";
         id: string;
@@ -759,10 +764,25 @@ export type FetchTaskByIdQueryResult = Apollo.QueryResult<
   FetchTaskByIdQueryVariables
 >;
 export const FetchTasksDocument = gql`
-  query FetchTasks($first: Int, $last: Int, $before: String, $after: String) {
-    tasks(first: $first, last: $last, before: $before, after: $after) {
+  query FetchTasks(
+    $first: Int
+    $last: Int
+    $before: String
+    $after: String
+    $from: String
+    $to: String
+    $title: String
+  ) {
+    tasks(
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+      from: $from
+      to: $to
+      title: $title
+    ) {
       edges {
-        cursor
         node {
           id
           title
@@ -800,6 +820,9 @@ export const FetchTasksDocument = gql`
  *      last: // value for 'last'
  *      before: // value for 'before'
  *      after: // value for 'after'
+ *      from: // value for 'from'
+ *      to: // value for 'to'
+ *      title: // value for 'title'
  *   },
  * });
  */

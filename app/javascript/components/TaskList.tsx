@@ -92,6 +92,12 @@ const TaskList: React.FC = () => {
     },
   });
 
+  // 期限で絞り込み
+  const [fromLimitOn, setFromLimitOn] = useState("");
+  const [toLimitOn, setToLimitOn] = useState("");
+  // タイトルで検索
+  const [title, setTitle] = useState("");
+
   return (
     <div className="container mx-auto">
       <h1 className="text-4xl font-bold text-center m-4">タスク一覧</h1>
@@ -146,6 +152,94 @@ const TaskList: React.FC = () => {
         </div>
       </div>
 
+      <div className="mb-5 mx-auto">
+        <form>
+          <div className="inline-block">
+            <label
+              className="text-gray-700 text-sm font-bold mb-2"
+              htmlFor="fromLimitOn"
+            >
+              From
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:bg-white focus:border-gray-500"
+              name="fromLimitOn"
+              type="date"
+              max={toLimitOn}
+              required
+              onChange={(e) => {
+                setFromLimitOn(e.target.value);
+              }}
+            />
+          </div>
+          〜
+          <div className="inline-block">
+            <label
+              className="text-gray-700 text-sm font-bold mb-2"
+              htmlFor="toLimitOn"
+            >
+              To
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:bg-white focus:border-gray-500"
+              name="toLimitOn"
+              type="date"
+              min={fromLimitOn}
+              required
+              onChange={(e) => {
+                setToLimitOn(e.target.value);
+              }}
+            />
+          </div>
+          <button
+            className="m-2 p-2 font-bold border rounded bg-gray-200 hover:bg-gray-300"
+            onClick={(e) => {
+              e.preventDefault();
+              if (!fromLimitOn || !toLimitOn) {
+                confirm("From〜Toのどちらにも入力してください。");
+                return;
+              } else if (fromLimitOn > toLimitOn) {
+                confirm("入力した期間が不正です");
+                return;
+              }
+              void fetchMore({
+                variables: {
+                  from: fromLimitOn,
+                  to: toLimitOn,
+                  title,
+                },
+              });
+            }}
+          >
+            絞り込み
+          </button>
+        </form>
+      </div>
+      <div className="mb-4">
+        <label
+          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+          htmlFor="title"
+        >
+          タイトルで検索
+        </label>
+        <input
+          className="appearance-none block w-full bg-white text-gray-700 border shadow rounded py-3 px-4 leading-tight focus:bg-white focus:border-gray-500"
+          name="title"
+          type="text"
+          placeholder="タイトル"
+          value={title}
+          onChange={(e) => {
+            setTitle(e.target.value);
+            void fetchMore({
+              variables: {
+                from: fromLimitOn,
+                to: toLimitOn,
+                title: e.target.value,
+              },
+            });
+          }}
+        />
+      </div>
       {loading ? (
         <p>Loading ...</p>
       ) : (
@@ -185,6 +279,9 @@ const TaskList: React.FC = () => {
                 first: null,
                 last: 10,
                 before: data?.tasks.pageInfo.startCursor,
+                from: fromLimitOn,
+                to: toLimitOn,
+                title,
               },
             });
           }}
@@ -199,6 +296,9 @@ const TaskList: React.FC = () => {
               variables: {
                 first: 10,
                 after: data?.tasks.pageInfo.endCursor,
+                from: fromLimitOn,
+                to: toLimitOn,
+                title,
               },
             });
           }}
