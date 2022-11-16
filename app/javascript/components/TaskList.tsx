@@ -111,6 +111,12 @@ const TaskList: React.FC = () => {
       </div>
       <div className="mb-5">
         <Link
+          className="no-underline mr-2 bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded"
+          to="/teams/new"
+        >
+          チーム作成
+        </Link>
+        <Link
           className="no-underline mr-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
           to="/tasks/new"
         >
