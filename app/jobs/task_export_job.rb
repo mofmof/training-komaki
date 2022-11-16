@@ -3,9 +3,10 @@ class TaskExportJob < ApplicationJob
   require 'csv'
 
   def perform(user)
-
+    tmpfile_name = "tmp/tmpfile_#{user.id}.csv"
     # CSV生成
-    CSV.open("tmp/tmpfile.csv", "w") do |csv|
+    CSV.open(tmpfile_name, "w") do |csv|
+      csv.flock(File::LOCK_EX)
       csv << %w(id title detail limit_on status_id)
       user.tasks.each do |task|
         values = [
@@ -17,14 +18,18 @@ class TaskExportJob < ApplicationJob
         ]
         csv << values
       end
+      csv.flock(File::LOCK_UN)
     end
+
+    file = File.open(tmpfile_name)
 
     csv = CsvUpload.create!(
       file: ActiveStorage::Blob.create_and_upload!(
-        io: File.open("tmp/tmpfile.csv"),
+        io: file,
         filename: "tasks_#{Time.current.strftime('%Y_%m_%d')}.csv"
       )
     )
+    file.close
 
     CompleteMailer.complete_notification(user, "タスクのエクスポートが完了しました", csv.file.url).deliver_now if user.notification_flg === "enabled"
   rescue => e
