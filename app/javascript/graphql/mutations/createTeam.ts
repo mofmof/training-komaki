@@ -6,6 +6,7 @@ export const CREATE_TEAM = gql`
       team {
         id
         name
+        ownerId
       }
     }
   }

@@ -5,7 +5,7 @@ module Mutations
     argument :name, String, required: true
 
     def resolve(name:)
-      team = ::Team.create!(name: name)
+      team = ::Team.create!(name: name, owner_id: current_user.id)
       { team: }
     rescue StandardError => e
       GraphQL::ExecutionError.new(e.message)
