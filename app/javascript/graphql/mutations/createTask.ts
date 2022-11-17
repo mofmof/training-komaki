@@ -10,7 +10,6 @@ export const CREATE_TASK = gql`
         limitOn
         statusId
         userId
-        teamId
       }
     }
   }

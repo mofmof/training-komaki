@@ -11,6 +11,5 @@ module ObjectTypes
     field :user_id, ID
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
-    field :team_id, ID
   end
 end

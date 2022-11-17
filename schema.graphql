@@ -219,7 +219,6 @@ type Query {
     title: String
     to: String
   ): TaskConnection!
-  teams: [Team!]!
   users: [User!]!
 }
 
@@ -237,7 +236,6 @@ type Task {
   limitOn: ISO8601Date!
   status: Status
   statusId: ID
-  teamId: ID
   title: String!
   updatedAt: ISO8601DateTime!
   userId: ID
@@ -282,7 +280,6 @@ input TaskInput {
   detail: String
   limitOn: String!
   statusId: ID!
-  teamId: ID
   title: String!
   userId: ID!
 }

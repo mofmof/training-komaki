@@ -4,14 +4,12 @@ import { AuthContext } from "../App";
 import {
   useCreateTaskMutation,
   useFetchStatusesQuery,
-  useFetchTeamsQuery,
 } from "../generated/graphql";
 
 const AddTask: React.FC = () => {
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const { data } = useFetchStatusesQuery();
-  const { data: teamData } = useFetchTeamsQuery();
   const [createTask] = useCreateTaskMutation({
     onCompleted: (data) => {
       navigate(`/tasks/${data?.createTask?.task?.id}`);
@@ -20,8 +18,7 @@ const AddTask: React.FC = () => {
   const [title, setTitle] = useState("");
   const [detail, setDetail] = useState("");
   const [limitOn, setLimitOn] = useState("");
-  const [statusId, setStatusId] = useState("1");
-  const [teamId, setTeamId] = useState("");
+  const [statusId, setStatusId] = useState(1);
   const userId = currentUser?.id;
 
   return (
@@ -96,42 +93,19 @@ const AddTask: React.FC = () => {
             ))}
           </select>
         </div>
-        <div className="mb-8">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="teamId"
-          >
-            チーム
-          </label>
-          <select
-            className="shadow border rounded py-2 px-3"
-            name="teamId"
-            onChange={(e) => {
-              setTeamId(e.target.value);
-            }}
-          >
-            <option>未選択</option>
-            {teamData?.teams.map((team) => (
-              <option key={team.id} value={team.id}>
-                {team.name}
-              </option>
-            ))}
-          </select>
-        </div>
         <div>
           <button
             className="no-underline bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
             onClick={() => {
               void createTask({
                 variables: {
-                  params: { title, detail, limitOn, statusId, userId, teamId },
+                  params: { title, detail, limitOn, statusId, userId },
                 },
               });
               setTitle("");
               setDetail("");
               setLimitOn("");
               setStatusId("");
-              setTeamId("");
             }}
           >
             追加
