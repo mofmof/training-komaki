@@ -159,6 +159,7 @@ export type Query = {
   statuses: Array<Status>;
   task: Task;
   tasks: TaskConnection;
+  team: Team;
   teams: Array<Team>;
   users: Array<User>;
 };
@@ -175,6 +176,10 @@ export type QueryTasksArgs = {
   last?: InputMaybe<Scalars["Int"]>;
   title?: InputMaybe<Scalars["String"]>;
   to?: InputMaybe<Scalars["String"]>;
+};
+
+export type QueryTeamArgs = {
+  id: Scalars["ID"];
 };
 
 export type Status = {
@@ -438,6 +443,15 @@ export type FetchTasksQuery = {
       endCursor?: string | null;
     };
   };
+};
+
+export type FetchTeamByIdQueryVariables = Exact<{
+  id: Scalars["ID"];
+}>;
+
+export type FetchTeamByIdQuery = {
+  __typename?: "Query";
+  team: { __typename?: "Team"; id: string; name: string };
 };
 
 export type FetchTeamsQueryVariables = Exact<{ [key: string]: never }>;
@@ -1050,6 +1064,65 @@ export type FetchTasksLazyQueryHookResult = ReturnType<
 export type FetchTasksQueryResult = Apollo.QueryResult<
   FetchTasksQuery,
   FetchTasksQueryVariables
+>;
+export const FetchTeamByIdDocument = gql`
+  query FetchTeamById($id: ID!) {
+    team(id: $id) {
+      id
+      name
+    }
+  }
+`;
+
+/**
+ * __useFetchTeamByIdQuery__
+ *
+ * To run a query within a React component, call `useFetchTeamByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchTeamByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchTeamByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useFetchTeamByIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FetchTeamByIdQuery,
+    FetchTeamByIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FetchTeamByIdQuery, FetchTeamByIdQueryVariables>(
+    FetchTeamByIdDocument,
+    options
+  );
+}
+export function useFetchTeamByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FetchTeamByIdQuery,
+    FetchTeamByIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FetchTeamByIdQuery, FetchTeamByIdQueryVariables>(
+    FetchTeamByIdDocument,
+    options
+  );
+}
+export type FetchTeamByIdQueryHookResult = ReturnType<
+  typeof useFetchTeamByIdQuery
+>;
+export type FetchTeamByIdLazyQueryHookResult = ReturnType<
+  typeof useFetchTeamByIdLazyQuery
+>;
+export type FetchTeamByIdQueryResult = Apollo.QueryResult<
+  FetchTeamByIdQuery,
+  FetchTeamByIdQueryVariables
 >;
 export const FetchTeamsDocument = gql`
   query FetchTeams {

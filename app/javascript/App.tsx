@@ -11,6 +11,7 @@ import { getCurrentUser } from "./api/auth";
 import RequireAuth from "./components/RequireAuth";
 import UserList from "./components/UserList";
 import NewTeam from "./components/NewTeam";
+import Team from "./components/Team";
 
 interface User {
   id: number;
@@ -86,6 +87,7 @@ const App: React.FC = () => {
               <Route path="/tasks/:id/edit" element={<EditTask />} />
               <Route path="/users" element={<UserList />} />
               <Route path="/teams/new" element={<NewTeam />} />
+              <Route path="/teams/:id" element={<Team />} />
             </Route>
             <Route path="*" element={<ErrorPage />} />
           </Routes>

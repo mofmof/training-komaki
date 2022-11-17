@@ -219,6 +219,7 @@ type Query {
     title: String
     to: String
   ): TaskConnection!
+  team(id: ID!): Team!
   teams: [Team!]!
   users: [User!]!
 }
