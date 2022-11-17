@@ -7,5 +7,6 @@ module InputTypes
     argument :limit_on, String, required: true
     argument :status_id, ID, required: true
     argument :user_id, ID, required: true
+    argument :team_id, ID, required: false
   end
 end

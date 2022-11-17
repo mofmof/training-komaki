@@ -159,6 +159,7 @@ export type Query = {
   statuses: Array<Status>;
   task: Task;
   tasks: TaskConnection;
+  teams: Array<Team>;
   users: Array<User>;
 };
 
@@ -192,6 +193,7 @@ export type Task = {
   limitOn: Scalars["ISO8601Date"];
   status?: Maybe<Status>;
   statusId?: Maybe<Scalars["ID"]>;
+  teamId?: Maybe<Scalars["ID"]>;
   title: Scalars["String"];
   updatedAt: Scalars["ISO8601DateTime"];
   userId?: Maybe<Scalars["ID"]>;
@@ -221,6 +223,7 @@ export type TaskInput = {
   detail?: InputMaybe<Scalars["String"]>;
   limitOn: Scalars["String"];
   statusId: Scalars["ID"];
+  teamId?: InputMaybe<Scalars["ID"]>;
   title: Scalars["String"];
   userId: Scalars["ID"];
 };
@@ -304,6 +307,7 @@ export type CreateTaskMutation = {
       limitOn: any;
       statusId?: string | null;
       userId?: string | null;
+      teamId?: string | null;
     };
   } | null;
 };
@@ -436,6 +440,18 @@ export type FetchTasksQuery = {
   };
 };
 
+export type FetchTeamsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type FetchTeamsQuery = {
+  __typename?: "Query";
+  teams: Array<{
+    __typename?: "Team";
+    id: string;
+    name: string;
+    ownerId: string;
+  }>;
+};
+
 export type FetchUsersQueryVariables = Exact<{ [key: string]: never }>;
 
 export type FetchUsersQuery = {
@@ -458,6 +474,7 @@ export const CreateTaskDocument = gql`
         limitOn
         statusId
         userId
+        teamId
       }
     }
   }
@@ -1033,6 +1050,63 @@ export type FetchTasksLazyQueryHookResult = ReturnType<
 export type FetchTasksQueryResult = Apollo.QueryResult<
   FetchTasksQuery,
   FetchTasksQueryVariables
+>;
+export const FetchTeamsDocument = gql`
+  query FetchTeams {
+    teams {
+      id
+      name
+      ownerId
+    }
+  }
+`;
+
+/**
+ * __useFetchTeamsQuery__
+ *
+ * To run a query within a React component, call `useFetchTeamsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchTeamsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchTeamsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFetchTeamsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    FetchTeamsQuery,
+    FetchTeamsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FetchTeamsQuery, FetchTeamsQueryVariables>(
+    FetchTeamsDocument,
+    options
+  );
+}
+export function useFetchTeamsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FetchTeamsQuery,
+    FetchTeamsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FetchTeamsQuery, FetchTeamsQueryVariables>(
+    FetchTeamsDocument,
+    options
+  );
+}
+export type FetchTeamsQueryHookResult = ReturnType<typeof useFetchTeamsQuery>;
+export type FetchTeamsLazyQueryHookResult = ReturnType<
+  typeof useFetchTeamsLazyQuery
+>;
+export type FetchTeamsQueryResult = Apollo.QueryResult<
+  FetchTeamsQuery,
+  FetchTeamsQueryVariables
 >;
 export const FetchUsersDocument = gql`
   query FetchUsers {
