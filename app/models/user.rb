@@ -7,8 +7,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
   has_many :tasks
-  has_many :teams, through: :team_users
   has_many :team_users
+  has_many :teams, through: :team_users
   enum role: {general: 0, admin: 1}
   enum notification_flg: {disabled: 0, enabled: 1}
 end
