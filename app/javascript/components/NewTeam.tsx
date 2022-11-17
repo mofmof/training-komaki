@@ -9,8 +9,8 @@ const NewTeam: React.FC = () => {
     variables: {
       name,
     },
-    onCompleted: (data) => {
-      navigate(`/teams/${data.createTeam?.team.id}`);
+    onCompleted: () => {
+      navigate("/");
     },
   });
 

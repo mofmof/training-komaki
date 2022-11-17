@@ -9,6 +9,5 @@ module Types
     field :statuses, resolver: Queries::Statuses
     field :users, resolver: Queries::Users
     field :teams, resolver: Queries::Teams
-    field :team, resolver: Queries::Team
   end
 end
