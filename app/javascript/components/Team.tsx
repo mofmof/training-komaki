@@ -18,7 +18,7 @@ const Team: React.FC = () => {
       <hr className="my-2" />
       <form>
         <div className="mb-4">
-          <div className="inline-block w-80 mr-2">
+          <div className="inline-block w-100 mr-2">
             <input
               className="appearance-none block w-full bg-white text-gray-700 border shadow rounded py-3 px-4 leading-tight focus:bg-white focus:border-gray-500"
               placeholder="招待したいユーザーのメールアドレス"
