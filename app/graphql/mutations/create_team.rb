@@ -5,8 +5,12 @@ module Mutations
     argument :name, String, required: true
 
     def resolve(name:)
-      team = current_user.teams.create!(name: name, owner_id: current_user.id)
-      { team: }
+      ActiveRecord::Base.transaction do
+        current_user.created_teams.create!(name: name).tap do |team|
+          team.users << current_user
+        end
+      end
+      { team: current_user.created_teams.last }
     rescue StandardError => e
       GraphQL::ExecutionError.new(e.message)
     end
