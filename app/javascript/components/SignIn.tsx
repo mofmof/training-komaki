@@ -1,14 +1,21 @@
 import Cookies from "js-cookie";
 import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { signIn } from "../api/auth";
 import { AuthContext } from "../App";
+
+interface CustomLocation {
+  state: { from: { pathname: string } };
+}
 
 const SignIn: React.FC = () => {
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
+  const location: CustomLocation = useLocation();
+  const fromPathName: string = location?.state?.from?.pathname;
 
   const handleSignInSubmit = async (e) => {
     e.preventDefault();
@@ -27,7 +34,11 @@ const SignIn: React.FC = () => {
         setIsSignedIn(true);
         setCurrentUser(res.data.data);
 
-        navigate("/");
+        if (!fromPathName) {
+          navigate("/");
+        } else {
+          navigate(fromPathName, { replace: true });
+        }
       }
     } catch (e) {
       console.log(e);

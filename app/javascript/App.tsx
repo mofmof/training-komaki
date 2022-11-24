@@ -12,6 +12,7 @@ import RequireAuth from "./components/RequireAuth";
 import UserList from "./components/UserList";
 import NewTeam from "./components/NewTeam";
 import Team from "./components/Team";
+import InviteTeam from "./components/InviteTeam";
 
 interface User {
   id: number;
@@ -89,6 +90,7 @@ const App: React.FC = () => {
               <Route path="/teams/new" element={<NewTeam />} />
               <Route path="/teams/:id" element={<Team />} />
             </Route>
+            <Route path="/teams/:id/:token" element={<InviteTeam />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         )}
