@@ -43,6 +43,7 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :letter_opener_web
 
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
@@ -71,4 +72,8 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
 
   config.web_console.whitelisted_ips = '0.0.0.0/0'
+
+  # URL取得用
+  Rails.application.routes.default_url_options[:host] = "localhost"
+  Rails.application.routes.default_url_options[:port] = 3000
 end
