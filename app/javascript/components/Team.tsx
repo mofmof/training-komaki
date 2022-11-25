@@ -11,12 +11,12 @@ const Team: React.FC = () => {
   const params = useParams();
   const { data } = useFetchTeamByIdQuery({
     variables: {
-      id: params.id,
+      id: params.teamId,
     },
     fetchPolicy: "cache-and-network",
   });
   const [email, setEmail] = useState("");
-  const [teamId, setTeamId] = useState(params.id);
+  const [teamId, setTeamId] = useState(params.teamId);
 
   const [sendInvitationMailMutation] = useSendInvitationMailMutation({
     variables: {
@@ -47,7 +47,7 @@ const Team: React.FC = () => {
   } = useFetchTeamTasksQuery({
     variables: {
       first: 10,
-      teamId: params.id,
+      teamId: params.teamId,
     },
   });
 
@@ -95,6 +95,14 @@ const Team: React.FC = () => {
           </div>
         </div>
       </form>
+      <div className="mb-5">
+        <Link
+          className="no-underline mr-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          to="/tasks/new"
+        >
+          追加
+        </Link>
+      </div>
       {loading ? (
         <p>Loading ...</p>
       ) : (

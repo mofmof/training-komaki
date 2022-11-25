@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { TeamContext } from "../App";
 import {
   useExportTaskMutation,
   useFetchTasksQuery,
@@ -55,6 +56,11 @@ export const alert4limitOn = (limit: string): string => {
 };
 
 const TaskList: React.FC = () => {
+  const team = useContext(TeamContext);
+  useEffect(() => {
+    team.setTeamId("");
+  }, []);
+
   const { loading, data, fetchMore } = useFetchTasksQuery({
     variables: {
       first: 10,
