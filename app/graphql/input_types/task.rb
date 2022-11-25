@@ -8,5 +8,6 @@ module InputTypes
     argument :status_id, ID, required: true
     argument :user_id, ID, required: true
     argument :team_id, ID
+    argument :owner_id, ID
   end
 end
