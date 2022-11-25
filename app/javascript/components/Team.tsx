@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   useFetchTeamByIdQuery,
+  useFetchTeamTasksQuery,
   useSendInvitationMailMutation,
 } from "../generated/graphql";
+import { alert4limitOn } from "./TaskList";
 
 const Team: React.FC = () => {
   const params = useParams();
@@ -37,6 +39,17 @@ const Team: React.FC = () => {
       target.style = null;
     }, 3000);
   };
+
+  const {
+    data: team,
+    loading,
+    fetchMore,
+  } = useFetchTeamTasksQuery({
+    variables: {
+      first: 10,
+      teamId: params.id,
+    },
+  });
 
   return (
     <div className="container mx-auto">
@@ -82,6 +95,66 @@ const Team: React.FC = () => {
           </div>
         </div>
       </form>
+      {loading ? (
+        <p>Loading ...</p>
+      ) : (
+        <div className="table">
+          <div className="table-header-group">
+            <div className="table-row text-center">
+              <div className="table-cell px-40">タイトル</div>
+              <div className="table-cell px-15">期限</div>
+              <div className="table-cell px-15">ステータス</div>
+            </div>
+          </div>
+          <div className="table-row-group">
+            {team?.teamTasks?.edges?.map((task) => (
+              <div
+                className={`table-row text-center ${alert4limitOn(
+                  task.node.limitOn
+                )}`}
+                key={task.node.id}
+              >
+                <div className="table-cell">
+                  <Link to={`/tasks/${task.node.id}`}>{task.node.title}</Link>
+                </div>
+                <div className="table-cell">{task.node.limitOn}</div>
+                <div className="table-cell">{task.node.status.name}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      <div className="mt-5 text-center">
+        <button
+          className="m-2 p-2 font-bold border rounded disabled:bg-slate-50 disabled:text-slate-500"
+          disabled={!(team?.teamTasks.pageInfo.hasPreviousPage ?? false)}
+          onClick={() => {
+            void fetchMore({
+              variables: {
+                first: null,
+                last: 10,
+                before: team?.teamTasks.pageInfo.startCursor,
+              },
+            });
+          }}
+        >
+          ←前の10件
+        </button>
+        <button
+          className="m-2 p-2 font-bold border rounded disabled:bg-slate-50 disabled:text-slate-500"
+          disabled={!(team?.teamTasks.pageInfo.hasNextPage ?? false)}
+          onClick={() => {
+            void fetchMore({
+              variables: {
+                first: 10,
+                after: team?.teamTasks.pageInfo.endCursor,
+              },
+            });
+          }}
+        >
+          次の10件→
+        </button>
+      </div>
       <div className="text-center">
         <Link className="no-underline" to="/">
           - TOP -
