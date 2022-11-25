@@ -187,6 +187,7 @@ export type Query = {
   tasks: TaskConnection;
   team: Team;
   teamTasks: TaskConnection;
+  teamUsers: Array<User>;
   teams: Array<Team>;
   users: Array<User>;
 };
@@ -214,6 +215,10 @@ export type QueryTeamTasksArgs = {
   before?: InputMaybe<Scalars["String"]>;
   first?: InputMaybe<Scalars["Int"]>;
   last?: InputMaybe<Scalars["Int"]>;
+  teamId: Scalars["ID"];
+};
+
+export type QueryTeamUsersArgs = {
   teamId: Scalars["ID"];
 };
 
@@ -247,6 +252,7 @@ export type Task = {
   detail?: Maybe<Scalars["String"]>;
   id: Scalars["ID"];
   limitOn: Scalars["ISO8601Date"];
+  ownerId?: Maybe<Scalars["ID"]>;
   status?: Maybe<Status>;
   statusId?: Maybe<Scalars["ID"]>;
   teamId?: Maybe<Scalars["ID"]>;
@@ -278,6 +284,7 @@ export type TaskEdge = {
 export type TaskInput = {
   detail?: InputMaybe<Scalars["String"]>;
   limitOn: Scalars["String"];
+  ownerId: Scalars["ID"];
   statusId: Scalars["ID"];
   teamId: Scalars["ID"];
   title: Scalars["String"];
@@ -364,6 +371,7 @@ export type CreateTaskMutation = {
       statusId?: string | null;
       userId?: string | null;
       teamId?: string | null;
+      ownerId?: string | null;
     };
   } | null;
 };
@@ -459,6 +467,9 @@ export type UpdateTaskMutation = {
       detail?: string | null;
       limitOn: any;
       statusId?: string | null;
+      userId?: string | null;
+      teamId?: string | null;
+      ownerId?: string | null;
     };
   } | null;
 };
@@ -564,6 +575,15 @@ export type FetchTeamTasksQuery = {
   };
 };
 
+export type FetchTeamUsersQueryVariables = Exact<{
+  teamId: Scalars["ID"];
+}>;
+
+export type FetchTeamUsersQuery = {
+  __typename?: "Query";
+  teamUsers: Array<{ __typename?: "User"; id: string; name?: string | null }>;
+};
+
 export type FetchTeamsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type FetchTeamsQuery = {
@@ -599,6 +619,7 @@ export const CreateTaskDocument = gql`
         statusId
         userId
         teamId
+        ownerId
       }
     }
   }
@@ -1010,6 +1031,9 @@ export const UpdateTaskDocument = gql`
         detail
         limitOn
         statusId
+        userId
+        teamId
+        ownerId
       }
     }
   }
@@ -1426,6 +1450,65 @@ export type FetchTeamTasksLazyQueryHookResult = ReturnType<
 export type FetchTeamTasksQueryResult = Apollo.QueryResult<
   FetchTeamTasksQuery,
   FetchTeamTasksQueryVariables
+>;
+export const FetchTeamUsersDocument = gql`
+  query FetchTeamUsers($teamId: ID!) {
+    teamUsers(teamId: $teamId) {
+      id
+      name
+    }
+  }
+`;
+
+/**
+ * __useFetchTeamUsersQuery__
+ *
+ * To run a query within a React component, call `useFetchTeamUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchTeamUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchTeamUsersQuery({
+ *   variables: {
+ *      teamId: // value for 'teamId'
+ *   },
+ * });
+ */
+export function useFetchTeamUsersQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FetchTeamUsersQuery,
+    FetchTeamUsersQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FetchTeamUsersQuery, FetchTeamUsersQueryVariables>(
+    FetchTeamUsersDocument,
+    options
+  );
+}
+export function useFetchTeamUsersLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FetchTeamUsersQuery,
+    FetchTeamUsersQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FetchTeamUsersQuery, FetchTeamUsersQueryVariables>(
+    FetchTeamUsersDocument,
+    options
+  );
+}
+export type FetchTeamUsersQueryHookResult = ReturnType<
+  typeof useFetchTeamUsersQuery
+>;
+export type FetchTeamUsersLazyQueryHookResult = ReturnType<
+  typeof useFetchTeamUsersLazyQuery
+>;
+export type FetchTeamUsersQueryResult = Apollo.QueryResult<
+  FetchTeamUsersQuery,
+  FetchTeamUsersQueryVariables
 >;
 export const FetchTeamsDocument = gql`
   query FetchTeams {

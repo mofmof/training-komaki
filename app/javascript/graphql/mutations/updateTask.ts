@@ -9,6 +9,9 @@ export const UPDATE_TASK = gql`
         detail
         limitOn
         statusId
+        userId
+        teamId
+        ownerId
       }
     }
   }

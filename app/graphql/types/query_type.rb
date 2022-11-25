@@ -11,5 +11,6 @@ module Types
     field :teams, resolver: Queries::Teams
     field :team, resolver: Queries::Team
     field :team_tasks, resolver: Queries::TeamTasks
+    field :team_users, resolver: Queries::TeamUsers
   end
 end

@@ -4,6 +4,7 @@ import { AuthContext, TeamContext } from "../App";
 import {
   useCreateTaskMutation,
   useFetchStatusesQuery,
+  useFetchTeamUsersQuery,
 } from "../generated/graphql";
 
 const AddTask: React.FC = () => {
@@ -19,8 +20,15 @@ const AddTask: React.FC = () => {
   const [detail, setDetail] = useState("");
   const [limitOn, setLimitOn] = useState("");
   const [statusId, setStatusId] = useState("1");
+  const [ownerId, setOwnerId] = useState("");
   const team = useContext(TeamContext);
   const userId = currentUser?.id;
+
+  const { data: teamUsers } = useFetchTeamUsersQuery({
+    variables: {
+      teamId: team.teamId,
+    },
+  });
 
   return (
     <div className="container mx-auto">
@@ -94,6 +102,28 @@ const AddTask: React.FC = () => {
             ))}
           </select>
         </div>
+        <div className="mb-8">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="ownerId"
+          >
+            担当者
+          </label>
+          <select
+            className="shadow border rounded py-2 px-3"
+            name="ownerId"
+            onChange={(e) => {
+              setOwnerId(e.target.value);
+            }}
+          >
+            <option value="">未選択</option>
+            {teamUsers?.teamUsers.map((user) => (
+              <option key={user.id} value={user.id}>
+                {user.name}
+              </option>
+            ))}
+          </select>
+        </div>
         <div>
           <button
             className="no-underline bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
@@ -107,6 +137,7 @@ const AddTask: React.FC = () => {
                     statusId,
                     userId,
                     teamId: team.teamId,
+                    ownerId,
                   },
                 },
               });
@@ -114,6 +145,7 @@ const AddTask: React.FC = () => {
               setDetail("");
               setLimitOn("");
               setStatusId("");
+              setOwnerId("");
             }}
           >
             追加
