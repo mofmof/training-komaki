@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   has_many :created_teams, class_name: "Team", foreign_key: "owner_id"
   has_many :team_users
   has_many :teams, through: :team_users
+  has_many :own_tasks, class_name: "User", foreign_key: "owner_id"
   enum role: {general: 0, admin: 1}
   enum notification_flg: {disabled: 0, enabled: 1}
 end

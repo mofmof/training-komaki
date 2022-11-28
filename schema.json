@@ -1573,6 +1573,20 @@
               ]
             },
             {
+              "name": "owner",
+              "description": null,
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null,
+              "args": [
+
+              ]
+            },
+            {
               "name": "ownerId",
               "description": null,
               "type": {

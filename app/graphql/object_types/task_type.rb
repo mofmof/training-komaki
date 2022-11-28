@@ -13,5 +13,6 @@ module ObjectTypes
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
     field :team_id, ID
     field :owner_id, ID
+    field :owner, ObjectTypes::UserType
   end
 end

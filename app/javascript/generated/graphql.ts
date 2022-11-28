@@ -252,6 +252,7 @@ export type Task = {
   detail?: Maybe<Scalars["String"]>;
   id: Scalars["ID"];
   limitOn: Scalars["ISO8601Date"];
+  owner?: Maybe<User>;
   ownerId?: Maybe<Scalars["ID"]>;
   status?: Maybe<Status>;
   statusId?: Maybe<Scalars["ID"]>;
@@ -494,7 +495,9 @@ export type FetchTaskByIdQuery = {
     detail?: string | null;
     limitOn: any;
     statusId?: string | null;
+    ownerId?: string | null;
     status?: { __typename?: "Status"; id: string; name: string } | null;
+    owner?: { __typename?: "User"; id: string; name?: string | null } | null;
   };
 };
 
@@ -1148,7 +1151,12 @@ export const FetchTaskByIdDocument = gql`
       detail
       limitOn
       statusId
+      ownerId
       status {
+        id
+        name
+      }
+      owner {
         id
         name
       }
