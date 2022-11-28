@@ -16,7 +16,7 @@ const InviteTeam: React.FC = () => {
   const [message, setMessage] = useState("");
   const [participateTeamMutation] = useParticipateTeamMutation({
     variables: {
-      id: params.id,
+      id: params.teamId,
       token: params.token,
     },
     onCompleted: (data) => {
