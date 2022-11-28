@@ -7,8 +7,8 @@ module Mutations
 
     def resolve(id:, token:)
       team = Team.find(id)
-      email = Invitaiton.find_by(token: token)[:email]
-      team.users << User.find_by(email: email)
+      invitaiton = Invitaiton.find_by(token: token)
+      team.users << User.find_by(email: invitaiton.email)
       { message: "チームに参加しました。" }
     rescue StandardError => e
       GraphQL::ExecutionError.new(e.message)
