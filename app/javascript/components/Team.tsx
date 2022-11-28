@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { AuthContext } from "../App";
 import {
   useFetchTeamByIdQuery,
   useFetchTeamTasksQuery,
@@ -8,6 +9,7 @@ import {
 import { alert4limitOn } from "./TaskList";
 
 const Team: React.FC = () => {
+  const { currentUser } = useContext(AuthContext);
   const params = useParams();
   const { data } = useFetchTeamByIdQuery({
     variables: {
@@ -49,6 +51,7 @@ const Team: React.FC = () => {
       first: 10,
       teamId: params.teamId,
     },
+    fetchPolicy: "cache-and-network",
   });
 
   return (
@@ -102,6 +105,29 @@ const Team: React.FC = () => {
         >
           追加
         </Link>
+        <div className="inline-block">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="ownerId"
+          >
+            担当者
+          </label>
+          <select
+            className="shadow border rounded py-2 px-3"
+            name="ownerId"
+            onChange={(e) => {
+              void fetchMore({
+                variables: {
+                  first: 10,
+                  ownerId: e.target.value,
+                },
+              });
+            }}
+          >
+            <option value="">未選択</option>
+            <option value={currentUser?.id}>自分</option>
+          </select>
+        </div>
       </div>
       {loading ? (
         <p>Loading ...</p>

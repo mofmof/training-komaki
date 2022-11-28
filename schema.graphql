@@ -275,6 +275,7 @@ type Query {
     Returns the last _n_ elements from the list.
     """
     last: Int
+    ownerId: ID
     teamId: ID!
   ): TaskConnection!
   teamUsers(teamId: ID!): [User!]!
