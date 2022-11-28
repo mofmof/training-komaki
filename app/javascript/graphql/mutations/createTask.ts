@@ -11,6 +11,7 @@ export const CREATE_TASK = gql`
         statusId
         userId
         teamId
+        ownerId
       }
     }
   }

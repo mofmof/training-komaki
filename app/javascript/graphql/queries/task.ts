@@ -8,7 +8,12 @@ export const FETCH_TASK_BY_ID = gql`
       detail
       limitOn
       statusId
+      ownerId
       status {
+        id
+        name
+      }
+      owner {
         id
         name
       }

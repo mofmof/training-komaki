@@ -1,9 +1,10 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { AuthContext } from "../App";
+import { AuthContext, TeamContext } from "../App";
 import {
   useFetchTaskByIdQuery,
   useUpdateTaskMutation,
+  useFetchTeamUsersQuery,
 } from "../generated/graphql";
 import SelectStatus from "./SelectStatus";
 
@@ -31,6 +32,14 @@ const EditTask: React.FC = () => {
   const [updateTask] = useUpdateTaskMutation({
     onCompleted: (data) => {
       navigate(`/tasks/${data?.updateTask?.task?.id}`);
+    },
+  });
+
+  const [ownerId, setOwnerId] = useState(data?.task.ownerId);
+  const team = useContext(TeamContext);
+  const { data: teamUsers } = useFetchTeamUsersQuery({
+    variables: {
+      teamId: team.teamId,
     },
   });
 
@@ -89,6 +98,29 @@ const EditTask: React.FC = () => {
           />
         </div>
         <SelectStatus statusId={statusId} changeStatus={changeStatus} />
+        <div className="mb-8">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="ownerId"
+          >
+            担当者
+          </label>
+          <select
+            className="shadow border rounded py-2 px-3"
+            name="ownerId"
+            value={ownerId}
+            onChange={(e) => {
+              setOwnerId(e.target.value);
+            }}
+          >
+            <option value="">未選択</option>
+            {teamUsers?.teamUsers.map((user) => (
+              <option key={user.id} value={user.id}>
+                {user.name}
+              </option>
+            ))}
+          </select>
+        </div>
         <div>
           <Link
             className="no-underline mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -102,13 +134,22 @@ const EditTask: React.FC = () => {
               void updateTask({
                 variables: {
                   id: params.id,
-                  params: { title, detail, limitOn, statusId, userId },
+                  params: {
+                    title,
+                    detail,
+                    limitOn,
+                    statusId,
+                    userId,
+                    teamId: team.teamId,
+                    ownerId,
+                  },
                 },
               });
               setTitle("");
               setDetail("");
               setLimitOn("");
               setStatusId("");
+              setOwnerId("");
             }}
           >
             更新

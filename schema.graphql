@@ -277,6 +277,7 @@ type Query {
     last: Int
     teamId: ID!
   ): TaskConnection!
+  teamUsers(teamId: ID!): [User!]!
   teams: [Team!]!
   users: [User!]!
 }
@@ -316,6 +317,8 @@ type Task {
   detail: String
   id: ID!
   limitOn: ISO8601Date!
+  owner: User
+  ownerId: ID
   status: Status
   statusId: ID
   teamId: ID
@@ -362,6 +365,7 @@ type TaskEdge {
 input TaskInput {
   detail: String
   limitOn: String!
+  ownerId: ID!
   statusId: ID!
   teamId: ID!
   title: String!

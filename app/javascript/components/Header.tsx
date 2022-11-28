@@ -2,12 +2,13 @@ import Cookies from "js-cookie";
 import React, { useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { signOut } from "../api/auth";
-import { AuthContext } from "../App";
+import { AuthContext, TeamContext } from "../App";
 import { useFetchTeamsQuery } from "../generated/graphql";
 import NotificationToggle from "./NotificationToggle";
 
 const Header: React.FC = () => {
   const { setIsSignedIn, currentUser } = useContext(AuthContext);
+  const team = useContext(TeamContext);
   const navigate = useNavigate();
 
   const handleSignOut = async (): Promise<void> => {
@@ -32,8 +33,8 @@ const Header: React.FC = () => {
     }
   };
 
-  const params = useParams();
   const { data } = useFetchTeamsQuery();
+  const params = useParams();
 
   return (
     <div className="flex mx-4">
@@ -41,17 +42,18 @@ const Header: React.FC = () => {
         <select
           className="shadow border rounded py-2 px-3"
           name="teamId"
-          value={params.id}
+          value={params.teamId ?? team.teamId}
           onChange={(e) => {
             const teamId = e.target.value;
-            if (teamId === "0") {
+            team.setTeamId(teamId);
+            if (!teamId) {
               navigate("/");
             } else {
               navigate(`/teams/${teamId}`);
             }
           }}
         >
-          <option value="0">チーム未選択</option>
+          <option value="">チーム未選択</option>
           {data?.teams.map((team) => (
             <option key={team.id} value={team.id}>
               {team.name}
