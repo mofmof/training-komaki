@@ -215,6 +215,7 @@ export type QueryTeamTasksArgs = {
   before?: InputMaybe<Scalars["String"]>;
   first?: InputMaybe<Scalars["Int"]>;
   last?: InputMaybe<Scalars["Int"]>;
+  ownerId?: InputMaybe<Scalars["ID"]>;
   teamId: Scalars["ID"];
 };
 
@@ -551,6 +552,7 @@ export type FetchTeamTasksQueryVariables = Exact<{
   before?: InputMaybe<Scalars["String"]>;
   after?: InputMaybe<Scalars["String"]>;
   teamId: Scalars["ID"];
+  ownerId?: InputMaybe<Scalars["ID"]>;
 }>;
 
 export type FetchTeamTasksQuery = {
@@ -1375,6 +1377,7 @@ export const FetchTeamTasksDocument = gql`
     $before: String
     $after: String
     $teamId: ID!
+    $ownerId: ID
   ) {
     teamTasks(
       first: $first
@@ -1382,6 +1385,7 @@ export const FetchTeamTasksDocument = gql`
       before: $before
       after: $after
       teamId: $teamId
+      ownerId: $ownerId
     ) {
       edges {
         node {
@@ -1422,6 +1426,7 @@ export const FetchTeamTasksDocument = gql`
  *      before: // value for 'before'
  *      after: // value for 'after'
  *      teamId: // value for 'teamId'
+ *      ownerId: // value for 'ownerId'
  *   },
  * });
  */

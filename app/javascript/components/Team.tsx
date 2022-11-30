@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { AuthContext } from "../App";
 import {
   useFetchTeamByIdQuery,
   useFetchTeamTasksQuery,
   useSendInvitationMailMutation,
 } from "../generated/graphql";
 import { alert4limitOn } from "./TaskList";
+import Tasks from "./Tasks";
 
 const Team: React.FC = () => {
+  const { currentUser } = useContext(AuthContext);
   const params = useParams();
   const { data } = useFetchTeamByIdQuery({
     variables: {
@@ -49,6 +52,7 @@ const Team: React.FC = () => {
       first: 10,
       teamId: params.teamId,
     },
+    fetchPolicy: "cache-and-network",
   });
 
   return (
@@ -102,67 +106,31 @@ const Team: React.FC = () => {
         >
           追加
         </Link>
-      </div>
-      {loading ? (
-        <p>Loading ...</p>
-      ) : (
-        <div className="table">
-          <div className="table-header-group">
-            <div className="table-row text-center">
-              <div className="table-cell px-40">タイトル</div>
-              <div className="table-cell px-15">期限</div>
-              <div className="table-cell px-15">ステータス</div>
-            </div>
-          </div>
-          <div className="table-row-group">
-            {team?.teamTasks?.edges?.map((task) => (
-              <div
-                className={`table-row text-center ${alert4limitOn(
-                  task.node.limitOn
-                )}`}
-                key={task.node.id}
-              >
-                <div className="table-cell">
-                  <Link to={`/tasks/${task.node.id}`}>{task.node.title}</Link>
-                </div>
-                <div className="table-cell">{task.node.limitOn}</div>
-                <div className="table-cell">{task.node.status.name}</div>
-              </div>
-            ))}
-          </div>
+        <div className="inline-block">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="ownerId"
+          >
+            担当者
+          </label>
+          <select
+            className="shadow border rounded py-2 px-3"
+            name="ownerId"
+            onChange={(e) => {
+              void fetchMore({
+                variables: {
+                  first: 10,
+                  ownerId: e.target.value,
+                },
+              });
+            }}
+          >
+            <option value="">未選択</option>
+            <option value={currentUser?.id}>自分</option>
+          </select>
         </div>
-      )}
-      <div className="mt-5 text-center">
-        <button
-          className="m-2 p-2 font-bold border rounded disabled:bg-slate-50 disabled:text-slate-500"
-          disabled={!(team?.teamTasks.pageInfo.hasPreviousPage ?? false)}
-          onClick={() => {
-            void fetchMore({
-              variables: {
-                first: null,
-                last: 10,
-                before: team?.teamTasks.pageInfo.startCursor,
-              },
-            });
-          }}
-        >
-          ←前の10件
-        </button>
-        <button
-          className="m-2 p-2 font-bold border rounded disabled:bg-slate-50 disabled:text-slate-500"
-          disabled={!(team?.teamTasks.pageInfo.hasNextPage ?? false)}
-          onClick={() => {
-            void fetchMore({
-              variables: {
-                first: 10,
-                after: team?.teamTasks.pageInfo.endCursor,
-              },
-            });
-          }}
-        >
-          次の10件→
-        </button>
       </div>
+      <Tasks data={team?.teamTasks} loading={loading} fetchMore={fetchMore} />
       <div className="text-center">
         <Link className="no-underline" to="/">
           - TOP -

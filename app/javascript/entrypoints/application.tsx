@@ -35,6 +35,10 @@ const client = new ApolloClient({
             keyArgs: false,
             merge: true,
           },
+          teamTasks: {
+            keyArgs: false,
+            merge: true,
+          },
         },
       },
     },
