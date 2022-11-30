@@ -83,6 +83,7 @@ group :development, :test do
   gem 'rubocop-rspec', require: false
   # RSpecを高速化するため
   gem 'spring-commands-rspec'
+  gem 'factory_bot_rails'
 end
 
 group :development do

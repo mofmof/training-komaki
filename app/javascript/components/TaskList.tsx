@@ -35,18 +35,15 @@ export const alert4limitOn = (limit: string): string => {
   } as const;
 
   const today: number = truncateDate(new Date()).getTime();
-  const limitOn: Date = truncateDate(new Date(limit));
+  const limitOn: number = truncateDate(new Date(limit)).getTime();
+  const dateMs: number = 1000 * 60 * 60 * 24;
 
   const alertColor = (): string => {
     if (today > limitOn.getTime()) {
       return AlertColors.OVER;
-    } else if (
-      today >= limitOn.setDate(new Date(limit).getDate() - AlertDays.SECOND)
-    ) {
+    } else if (today >= limitOn - AlertDays.SECOND * dateMs) {
       return AlertColors.SECOND;
-    } else if (
-      today >= limitOn.setDate(new Date(limit).getDate() - AlertDays.FIRST)
-    ) {
+    } else if (today >= limitOn - AlertDays.FIRST * dateMs) {
       return AlertColors.FIRST;
     }
     return "";
