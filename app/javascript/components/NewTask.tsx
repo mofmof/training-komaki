@@ -17,8 +17,14 @@ const AddTask: React.FC = () => {
       navigate(`/tasks/${data?.createTask?.task?.id}`);
     },
   });
-
+  const team = useContext(TeamContext);
   const userId = currentUser?.id;
+
+  const { data: teamUsers } = useFetchTeamUsersQuery({
+    variables: {
+      teamId: team.teamId,
+    },
+  });
 
   // バリデーション
   interface FormValues {
@@ -27,6 +33,8 @@ const AddTask: React.FC = () => {
     limitOn: string;
     statusId: string;
     userId: number;
+    teamId: number;
+    ownerId: string;
   }
 
   const {
@@ -45,6 +53,8 @@ const AddTask: React.FC = () => {
           limitOn: data.limitOn,
           statusId: data.statusId,
           userId,
+          ownerId: data.ownerId,
+          teamId: team.teamId,
         },
       },
     });
@@ -109,6 +119,25 @@ const AddTask: React.FC = () => {
             {data?.statuses.map((status) => (
               <option key={status.id} value={status.id}>
                 {status.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="mb-8">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="ownerId"
+          >
+            担当者
+          </label>
+          <select
+            className="shadow border rounded py-2 px-3"
+            {...register("ownerId")}
+          >
+            <option value="">未選択</option>
+            {teamUsers?.teamUsers.map((user) => (
+              <option key={user.id} value={user.id}>
+                {user.name}
               </option>
             ))}
           </select>
