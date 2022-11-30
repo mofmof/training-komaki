@@ -164,6 +164,11 @@ GEM
     erubi (1.11.0)
     et-orbi (1.2.7)
       tzinfo
+    factory_bot (6.2.1)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.2.0)
+      factory_bot (~> 6.2.0)
+      railties (>= 5.0.0)
     fugit (1.7.1)
       et-orbi (~> 1, >= 1.2.7)
       raabro (~> 1.4)
@@ -389,6 +394,7 @@ DEPENDENCIES
   debug
   devise
   devise_token_auth
+  factory_bot_rails
   graphiql-rails
   graphql
   importmap-rails
