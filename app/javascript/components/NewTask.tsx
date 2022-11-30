@@ -1,9 +1,10 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../App";
+import { AuthContext, TeamContext } from "../App";
 import {
   useCreateTaskMutation,
   useFetchStatusesQuery,
+  useFetchTeamUsersQuery,
 } from "../generated/graphql";
 import { useForm, SubmitHandler } from "react-hook-form";
 
@@ -16,6 +17,7 @@ const AddTask: React.FC = () => {
       navigate(`/tasks/${data?.createTask?.task?.id}`);
     },
   });
+
   const userId = currentUser?.id;
 
   // バリデーション

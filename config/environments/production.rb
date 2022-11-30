@@ -100,4 +100,8 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # URL取得用
+  Rails.application.routes.default_url_options[:host] = Rails.application.credentials.dig(:default_url_options, :host)
+  Rails.application.routes.default_url_options[:protocol] = 'https'
 end
