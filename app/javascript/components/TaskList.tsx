@@ -40,7 +40,7 @@ export const alert4limitOn = (limit: string): string => {
   const dateMs: number = 1000 * 60 * 60 * 24;
 
   const alertColor = (): string => {
-    if (today > limitOn.getTime()) {
+    if (today > limitOn) {
       return AlertColors.OVER;
     } else if (today >= limitOn - AlertDays.SECOND * dateMs) {
       return AlertColors.SECOND;
