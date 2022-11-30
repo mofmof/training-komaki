@@ -55,6 +55,7 @@ const Task: React.FC = () => {
       <div>詳細： {data?.task.detail}</div>
       <div>期限： {data?.task.limitOn}</div>
       <div>ステータス： {data?.task.status.name}</div>
+      <div>担当者：{data?.task.owner?.name}</div>
       <div className="text-center">
         <Link className="no-underline" to="/">
           - TOP -

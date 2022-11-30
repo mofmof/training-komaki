@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import NewTask from "./components/NewTask";
 import ErrorPage from "./components/ErrorPage";
@@ -11,6 +11,8 @@ import { getCurrentUser } from "./api/auth";
 import RequireAuth from "./components/RequireAuth";
 import UserList from "./components/UserList";
 import NewTeam from "./components/NewTeam";
+import Team from "./components/Team";
+import InviteTeam from "./components/InviteTeam";
 
 interface User {
   id: number;
@@ -36,7 +38,22 @@ interface AuthContextType {
   setCurrentUser: React.Dispatch<React.SetStateAction<User | undefined>>;
 }
 
+interface TeamContextType {
+  teamId: string;
+  setTeamId: (teamId: string) => void;
+}
+
 export const AuthContext = createContext<AuthContextType>(null!);
+
+export const TeamContext = createContext<TeamContextType>(null!);
+
+export const useSelectTeam = (): TeamContextType => {
+  const [teamId, setTeamId] = useState("");
+  return {
+    teamId,
+    setTeamId,
+  };
+};
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -75,21 +92,25 @@ const App: React.FC = () => {
           setCurrentUser,
         }}
       >
-        {!loading && (
-          <Routes>
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/signin" element={<SignIn />} />
-            <Route element={<RequireAuth />}>
-              <Route path="/" element={<TaskList />} />
-              <Route path="/tasks/:id" element={<Task />} />
-              <Route path="/tasks/new" element={<NewTask />} />
-              <Route path="/tasks/:id/edit" element={<EditTask />} />
-              <Route path="/users" element={<UserList />} />
-              <Route path="/teams/new" element={<NewTeam />} />
-            </Route>
-            <Route path="*" element={<ErrorPage />} />
-          </Routes>
-        )}
+        <TeamContext.Provider value={useSelectTeam()}>
+          {!loading && (
+            <Routes>
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/signin" element={<SignIn />} />
+              <Route element={<RequireAuth />}>
+                <Route path="/" element={<TaskList />} />
+                <Route path="/tasks/:id" element={<Task />} />
+                <Route path="/tasks/new" element={<NewTask />} />
+                <Route path="/tasks/:id/edit" element={<EditTask />} />
+                <Route path="/users" element={<UserList />} />
+                <Route path="/teams/new" element={<NewTeam />} />
+                <Route path="/teams/:teamId" element={<Team />} />
+              </Route>
+              <Route path="/teams/:teamId/:token" element={<InviteTeam />} />
+              <Route path="*" element={<ErrorPage />} />
+            </Routes>
+          )}
+        </TeamContext.Provider>
       </AuthContext.Provider>
     </BrowserRouter>
   );

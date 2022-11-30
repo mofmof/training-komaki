@@ -1,12 +1,14 @@
 import Cookies from "js-cookie";
 import React, { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { signOut } from "../api/auth";
-import { AuthContext } from "../App";
+import { AuthContext, TeamContext } from "../App";
+import { useFetchTeamsQuery } from "../generated/graphql";
 import NotificationToggle from "./NotificationToggle";
 
 const Header: React.FC = () => {
   const { setIsSignedIn, currentUser } = useContext(AuthContext);
+  const team = useContext(TeamContext);
   const navigate = useNavigate();
 
   const handleSignOut = async (): Promise<void> => {
@@ -31,13 +33,39 @@ const Header: React.FC = () => {
     }
   };
 
+  const { data } = useFetchTeamsQuery();
+  const params = useParams();
+
   return (
-    <div className="text-right mx-4">
-      <div className="py-2 px-2 inline-block font-bold">
-        {currentUser?.name}
+    <div className="flex mx-4">
+      <div className="flex-1 m-auto">
+        <select
+          className="shadow border rounded py-2 px-3"
+          name="teamId"
+          value={params.teamId ?? team.teamId}
+          onChange={(e) => {
+            const teamId = e.target.value;
+            team.setTeamId(teamId);
+            if (!teamId) {
+              navigate("/");
+            } else {
+              navigate(`/teams/${teamId}`);
+            }
+          }}
+        >
+          <option value="">チーム未選択</option>
+          {data?.teams.map((team) => (
+            <option key={team.id} value={team.id}>
+              {team.name}
+            </option>
+          ))}
+        </select>
       </div>
-      <NotificationToggle />
-      <div className="inline-block">
+      <div className="flex-2">
+        <div className="py-2 px-2 inline-block font-bold">
+          {currentUser?.name}
+        </div>
+        <NotificationToggle />
         <button
           className="hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
           type="submit"

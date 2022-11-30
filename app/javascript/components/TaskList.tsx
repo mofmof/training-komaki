@@ -1,66 +1,72 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { TeamContext } from "../App";
 import {
   useExportTaskMutation,
   useFetchTasksQuery,
   useImportTaskMutation,
 } from "../generated/graphql";
 
+/**
+ * Dateオブジェクトの時刻丸め関数
+ * @param date
+ * @returns
+ */
+export const truncateDate = (date: Date): Date => {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+};
+
+/**
+ * 期日に対するアラート文字列を返す
+ * @param limit
+ * @returns
+ */
+export const alert4limitOn = (limit: string): string => {
+  // アラート用定数
+  const AlertDays = {
+    FIRST: 3,
+    SECOND: 1,
+  } as const;
+
+  const AlertColors = {
+    FIRST: "bg-yellow-300",
+    SECOND: "bg-orange-300",
+    OVER: "bg-red-300",
+  } as const;
+
+  const today: number = truncateDate(new Date()).getTime();
+  const limitOn: Date = truncateDate(new Date(limit));
+
+  const alertColor = (): string => {
+    if (today > limitOn.getTime()) {
+      return AlertColors.OVER;
+    } else if (
+      today >= limitOn.setDate(new Date(limit).getDate() - AlertDays.SECOND)
+    ) {
+      return AlertColors.SECOND;
+    } else if (
+      today >= limitOn.setDate(new Date(limit).getDate() - AlertDays.FIRST)
+    ) {
+      return AlertColors.FIRST;
+    }
+    return "";
+  };
+
+  return alertColor();
+};
+
 const TaskList: React.FC = () => {
+  const team = useContext(TeamContext);
+  useEffect(() => {
+    team.setTeamId("");
+  }, []);
+
   const { loading, data, fetchMore } = useFetchTasksQuery({
     variables: {
       first: 10,
     },
     fetchPolicy: "cache-and-network",
   });
-
-  /**
-   * Dateオブジェクトの時刻丸め関数
-   * @param date
-   * @returns
-   */
-  const truncateDate = (date: Date): Date => {
-    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
-  };
-
-  /**
-   * 期日に対するアラート文字列を返す
-   * @param limit
-   * @returns
-   */
-  const alert4limitOn = (limit: string): string => {
-    // アラート用定数
-    const AlertDays = {
-      FIRST: 3,
-      SECOND: 1,
-    } as const;
-
-    const AlertColors = {
-      FIRST: "bg-yellow-300",
-      SECOND: "bg-orange-300",
-      OVER: "bg-red-300",
-    } as const;
-
-    const today: number = truncateDate(new Date()).getTime();
-    const limitOn: Date = truncateDate(new Date(limit));
-
-    const alertColor = (): string => {
-      if (today > limitOn.getTime()) {
-        return AlertColors.OVER;
-      } else if (
-        today >= limitOn.setDate(new Date(limit).getDate() - AlertDays.SECOND)
-      ) {
-        return AlertColors.SECOND;
-      } else if (
-        today >= limitOn.setDate(new Date(limit).getDate() - AlertDays.FIRST)
-      ) {
-        return AlertColors.FIRST;
-      }
-      return "";
-    };
-
-    return alertColor();
-  };
 
   const flashMessage = (message: string): void => {
     setMessage(message);
