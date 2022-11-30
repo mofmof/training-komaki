@@ -7,6 +7,7 @@ export const FETCH_TEAM_TASKS = gql`
     $before: String
     $after: String
     $teamId: ID!
+    $ownerId: ID
   ) {
     teamTasks(
       first: $first
@@ -14,6 +15,7 @@ export const FETCH_TEAM_TASKS = gql`
       before: $before
       after: $after
       teamId: $teamId
+      ownerId: $ownerId
     ) {
       edges {
         node {

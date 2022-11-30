@@ -6,6 +6,7 @@ import {
   useFetchTasksQuery,
   useImportTaskMutation,
 } from "../generated/graphql";
+import Tasks from "./Tasks";
 
 /**
  * Dateオブジェクトの時刻丸め関数
@@ -249,72 +250,7 @@ const TaskList: React.FC = () => {
           }}
         />
       </div>
-      {loading ? (
-        <p>Loading ...</p>
-      ) : (
-        <div className="table">
-          <div className="table-header-group">
-            <div className="table-row text-center">
-              <div className="table-cell px-40">タイトル</div>
-              <div className="table-cell px-15">期限</div>
-              <div className="table-cell px-15">ステータス</div>
-            </div>
-          </div>
-          <div className="table-row-group">
-            {data?.tasks?.edges?.map((task) => (
-              <div
-                className={`table-row text-center ${alert4limitOn(
-                  task.node.limitOn
-                )}`}
-                key={task.node.id}
-              >
-                <div className="table-cell">
-                  <Link to={`/tasks/${task.node.id}`}>{task.node.title}</Link>
-                </div>
-                <div className="table-cell">{task.node.limitOn}</div>
-                <div className="table-cell">{task.node.status.name}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-      <div className="mt-5 text-center">
-        <button
-          className="m-2 p-2 font-bold border rounded disabled:bg-slate-50 disabled:text-slate-500"
-          disabled={!(data?.tasks.pageInfo.hasPreviousPage ?? false)}
-          onClick={() => {
-            void fetchMore({
-              variables: {
-                first: null,
-                last: 10,
-                before: data?.tasks.pageInfo.startCursor,
-                from: fromLimitOn,
-                to: toLimitOn,
-                title,
-              },
-            });
-          }}
-        >
-          ←前の10件
-        </button>
-        <button
-          className="m-2 p-2 font-bold border rounded disabled:bg-slate-50 disabled:text-slate-500"
-          disabled={!(data?.tasks.pageInfo.hasNextPage ?? false)}
-          onClick={() => {
-            void fetchMore({
-              variables: {
-                first: 10,
-                after: data?.tasks.pageInfo.endCursor,
-                from: fromLimitOn,
-                to: toLimitOn,
-                title,
-              },
-            });
-          }}
-        >
-          次の10件→
-        </button>
-      </div>
+      <Tasks data={data?.tasks} loading={loading} fetchMore={fetchMore} />
     </div>
   );
 };
